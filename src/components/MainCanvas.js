@@ -28,13 +28,12 @@ handleClick = (e) => {
 //const ResponseBoard = createReactClass({    
     render = () => {
          //{this.props.authObj.access_token}
-        return (
+        /* return (
             <div align="center">
                 <Form
                     onSubmit={this.handleSubmit}>
                 </Form>
                 <br />
-
                 <hr />
                 <FormCheckout
                     onSubmit={this.handleSubmitCreate}
@@ -51,7 +50,7 @@ handleClick = (e) => {
                     msg={this.state.msg}>
                 </ResponseBoard>
             </div>
-        );
+        ); */
        
     }
 }
