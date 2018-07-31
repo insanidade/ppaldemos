@@ -12,9 +12,7 @@ class FormCheckout extends Component {
             secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j',
         }
 
-    }
-
-    
+    }   
 
 
     handleClientIDChange = (e) => {
@@ -33,8 +31,6 @@ class FormCheckout extends Component {
         console.log('valor de client id: ' + this.state.clientID);
         this.props.onSubmit(this.state);
         console.log('valor de client id 2: ' + this.state.clientID);
-
-
     }
 
 
@@ -47,44 +43,22 @@ class FormCheckout extends Component {
 
                 <table border="5" bordercolor="red" align="center">
 
-                    <tr>
-                        <th colSpan="3">Beer shopping cart</th>
+                    <tr >
+                        <th  colSpan="3">Beer shopping cart</th>
                     </tr>
                     <tr>
                         <th>Name</th>
                         <th>Brewery</th>
-                        <th>Photo</th>
+                        <th>Product Image</th>
+                        <th>Price</th>
                     </tr>
                     <tr>
                         <th>Leave the Gun! Take the Cannoli.</th>
                         <th>Mafiosa Cervejaria</th>
-                        <th><img src={myImage} alt="Cheers!!" border="3" /></th>
-                    </tr>
-                </table>
-                <div id="checkout">
-
-                    {/* <div className="form-group">
-                        <label className="col-sm-2 control-label required" htmlFor="create_key_clientID">Client ID</label>
-                        <div className="col-sm-10">
-                            <input size="80" type="text"
-                                id="create_key_clientID"
-                                required="required"
-                                className="form-control"
-                                value={this.state.clientID}
-                                onChange={this.handleClientIDChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label className="col-sm-2 control-label required" htmlFor="create_key_secret">Secret</label>
-                        <div className="col-sm-10">
-                            <input size="80"  type="text"
-                                id="create_key_secret"
-                                required="required"
-                                className="form-control"
-                                value={this.state.secret}
-                                onChange={this.handleSecretChange} />
-                        </div>
-                    </div> */}
+                        <th><img src={myImage} alt="Cheers!!" width="50" border="3" /></th>
+                        <th>$10</th>
+                        <th>
+                        <div id="checkout">                    
                     <div className="form-group">
                         <div className="col-sm-2"></div>
                         <div className="col-sm-10">
@@ -97,6 +71,11 @@ class FormCheckout extends Component {
                         </div>
                     </div>
                 </div>
+
+                        </th>
+                    </tr>
+                </table>
+                
                 <hr />
                 <div id="ppplusDiv"> </div>
                 <hr />
