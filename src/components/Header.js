@@ -9,6 +9,7 @@ const Header = () => (
       <ul>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/ppp'>PayPal Plus</Link></li>
+        <li><Link to='/refInst'>Reference with Installments</Link></li>
         {/* <li><Link to='/schedule'>Reference (installments)</Link></li> */}
       </ul>
     </nav>
