@@ -7,7 +7,7 @@ const divStyle = {
 
 const Home = () => (
   <div >
-    <h1 style={divStyle}>Welcome to my integrations!</h1>
+    <h1>Welcome to my integrations!</h1>
   </div>
 )
 

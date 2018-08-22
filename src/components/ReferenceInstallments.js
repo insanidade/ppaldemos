@@ -11,7 +11,7 @@ import ExternalButton from './externalButton';
 //import scriptLoader from 'react-async-script-loader';
  
 
-class PayPalPlus extends Component{
+class ReferenceInstallments extends Component{
 
     constructor (props) {
         super(props);
@@ -315,4 +315,4 @@ render = () => {
 }
 
 
-export default PayPalPlus;
+export default ReferenceInstallments;
