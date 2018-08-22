@@ -12,6 +12,7 @@
     "react-dom": "^16.4.2",
     "react-json-pretty": "^1.7.9",
     "react-load-script": "0.0.6",
+    "react-router-dom": "^4.3.1",
     "react-script-tag": "^1.1.2",
     "react-scripts": "1.1.4",
     "react-scroll-box": "^0.3.5",
