@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import myImage from '../images/beer.jpeg';
+//import myImage from '../images/beer.jpeg';
 import Script from 'react-load-script';
 //import PAYPAL from 'https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js';
 
@@ -10,6 +10,10 @@ class FormCheckout extends Component {
         this.state = {
             clientID: this.props.clientid || 'ASpwwK3e6Xq319fcTEY4asiXBYzRZQK3kJLVZH5mQYf_7ZJw7cKzIScarLFGWwqcObuTKKYMPw6RLADw',
             secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j',
+            prodName: this.props.prodName,
+            prodBrewery: this.props.prodBrewery,
+            prodImage: '../images/beer.jpeg',
+            prodPrice: this.props.prodPrice
         }
 
     }   
@@ -53,10 +57,10 @@ class FormCheckout extends Component {
                         <th>Price</th>
                     </tr>
                     <tr>
-                        <th>Leave the Gun! Take the Cannoli.</th>
-                        <th>Mafiosa Cervejaria</th>
-                        <th><img src={myImage} alt="Cheers!!" width="50" border="3" /></th>
-                        <th>$10</th>
+                        <th>{this.props.prodName}</th>
+                        <th>{this.props.prodBrewery}</th>
+                        <th><img src={this.props.prodImage}  width="50" border="3" /></th>
+                        <th>{this.props.prodPrice}</th>
                         <th>
                         <div id="checkout">                    
                     <div className="form-group">

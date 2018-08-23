@@ -7,6 +7,7 @@ import Form from './form';
 import ResponseBoard from './responseBoard';
 import FormCheckout from './formCheckout';
 import ExternalButton from './externalButton';
+import theImage from '../images/beer.jpeg';
 
 //import scriptLoader from 'react-async-script-loader';
  
@@ -293,6 +294,10 @@ render = () => {
 
             <hr />
             <FormCheckout
+                prodName='Leave the Gun! Take the Cannoli'
+                prodBrewery='Mafiosa Cervejaria' 
+                prodImage={theImage} 
+                prodPrice='$20'
                 onSubmit={this.handleSubmitCreate}
                 authObj={this.state.jsonResponseObj}
                 msg={this.state.msg}>
