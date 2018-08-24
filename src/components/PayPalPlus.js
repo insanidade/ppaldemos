@@ -98,7 +98,7 @@ class PayPalPlus extends Component{
 
         }
 
-        if (message['action'] == 'checkout') { //PPPlus session approved, do logic here
+        if (message['action'] === 'checkout') { //PPPlus session approved, do logic here
 
             var rememberedCard = null;
             var payerID = null;
@@ -298,12 +298,14 @@ render = () => {
                 prodBrewery='Mafiosa Cervejaria' 
                 prodImage={theImage} 
                 prodPrice='$20'
+                buttonText='Pague com PayPal'
                 onSubmit={this.handleSubmitCreate}
                 authObj={this.state.jsonResponseObj}
                 msg={this.state.msg}>
             </FormCheckout>
 
-            <ExternalButton 
+            <ExternalButton
+                buttonText='Checkout'
                 onClick={this.handleClickExternalButton}>
             </ExternalButton>
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import JSONPretty from 'react-json-pretty';
+import { Redirect } from 'react-router';
+
 //import {GenericScrollBox, ScrollAxes, FastTrack} from 'react-scroll-box';
 //var React = require('react');
 //var createReactClass = require('create-react-class');
@@ -27,13 +28,14 @@ handleClick = (e) => {
 
 //const ResponseBoard = createReactClass({    
     render = () => {
-         //{this.props.authObj.access_token}
+       /*   if (this.props.redirectState){
+            console.log('REDIRECT STATE!!!!');
+            return <Redirect push to="/sample" />;
+         } */
         return (
-            <div align="center">
-
-            
-                <button id="continueButton" disableContinue="continueButton" enableContinue="continueButton" onClick={this.handleClick}>
-                    Checkout
+            <div align="center">            
+                <button id="continueButton" onClick={this.handleClick}>
+                {this.props.buttonText}
                 </button>
             </div>
         );

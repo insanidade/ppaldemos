@@ -70,7 +70,7 @@ class FormCheckout extends Component {
                             <button type="submit"
                                 id="create_key_submit"
                                 className="btn-default btn">
-                                Pague com Paypal
+                                {this.props.buttonText}
                             </button>
                         </div>
                     </div>

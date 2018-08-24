@@ -16,6 +16,7 @@ class ResponseBoard extends Component{
             <div className="scroll-box__viewport" align="left">
                 
                     <JSONPretty id="json-pretty" json={this.props.authObj}></JSONPretty>
+                    {this.props.msg}
                     <br />
                    
                 
