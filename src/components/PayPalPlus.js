@@ -21,9 +21,9 @@ class PayPalPlus extends Component{
             jsonResponseObj: {},
             executeUrl: '',
             token: 'EMPTY_TOKEN',
-            pppRef:{}
-        }
-        
+            pppRef:{}, 
+            billingAgreementData:''
+        }      
         
     }
 
@@ -32,11 +32,6 @@ class PayPalPlus extends Component{
 
     try {
         var message = JSON.parse(event.data);
-
-        //this.mySetJson(message);
-
-        //super.
-
 
         console.log("PEGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOU");
         if (typeof message['cause'] !== 'undefined') { //iFrame error handling
@@ -232,7 +227,7 @@ handleSubmit = async (data) => {
 handleSubmitCreate = async (data) => {
 console.log('invoking create payment');
 try {
-  var outjson = await createPayment(this.state.token);
+  var outjson = await createPayment(this.state.token, this.state.billingAgreementData);
   this.setState({
       msg: JSON.stringify(outjson),
       jsonResponseObj: outjson,

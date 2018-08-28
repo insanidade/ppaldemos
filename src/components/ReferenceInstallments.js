@@ -17,7 +17,6 @@ import 'react-dropdown/style.css'
 
 const CREDIT_FINANCING_INSTALLMENTS_MIN_AMOUNT = 1;
 const defaultOption = {};
-
 //import scriptLoader from 'react-async-script-loader';
 
 
@@ -251,9 +250,7 @@ class ReferenceInstallments extends Component {
                 jsonResponseObj: outjson,
                 calc_fin_invoked: true
                              
-            });         
-            
-
+            });
 
         } catch (err) {
             console.log(err.message);
@@ -305,7 +302,7 @@ class ReferenceInstallments extends Component {
 
 
         return (
-            <div align="center">
+            <div id="dropDownWrapper" align="center" >
                 <Form
                     onSubmit={this.handleSubmit}>
                 </Form>
@@ -322,8 +319,10 @@ class ReferenceInstallments extends Component {
                     authObj={this.state.jsonResponseObj}
                 /* msg={this.state.msg} */>
                 </FormCheckout>
+                <div id="dropDownWrapper">
                 {dynamicDropbox}
                 {dynamicButton}
+                </div>
 
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}
