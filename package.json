@@ -11,6 +11,7 @@
     "react": "^16.4.2",
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.4.2",
+    "react-dropdown": "^1.6.2",
     "react-json-pretty": "^1.7.9",
     "react-load-script": "0.0.6",
     "react-router-dom": "^4.3.1",

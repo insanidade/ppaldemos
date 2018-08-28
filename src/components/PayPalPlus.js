@@ -230,7 +230,7 @@ handleSubmit = async (data) => {
 //######################################################################################################
 
 handleSubmitCreate = async (data) => {
-console.log('Form value raw: ' + data.console);
+console.log('invoking create payment');
 try {
   var outjson = await createPayment(this.state.token);
   this.setState({
@@ -238,7 +238,7 @@ try {
       jsonResponseObj: outjson,
       executeUrl: outjson.links[2].href
   });
-  console.log('URL QUE EU QUEROOOOOO: '+this.state.jsonResponseObj.links[1].href);
+  console.log('URL QUE EU QUERO: '+this.state.jsonResponseObj.links[1].href);
   var ppp = await window.PAYPAL.apps.PPP({
     "approvalUrl": this.state.jsonResponseObj.links[1].href,
     "placeholder": "ppplusDiv",

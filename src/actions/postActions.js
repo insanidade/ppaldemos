@@ -38,11 +38,8 @@ export async function createToken(data) {
 //####################################################################
 //####################################################################
 
-export async function createPayment(token) {
+export async function createPayment(token, billingAgreementData) {
     console.log('invoking createPayment com token: ' + token);
-
-    //var createJson = "{\"intent\": \"sale\" ,\"payer\": {\"payment_method\": \"paypal\"},application_context: {brand_name: \"<<Store Name>>\",shipping_preference: \"SET_PROVIDED_ADDRESS\"},transactions: [    {        amount: {            currency: \"BRL\",              total: \"30.00\",              details: {        shipping: \"10.00\",                subtotal: \"20.00\"              }            },    \"description\": \"Order #942342 from storeURL\",    \"payment_options\": {    \"allowed_payment_method\": \"IMMEDIATE_PAY\"            },    \"invoice_number\": \"942342\",    \"item_list\": {    \"shipping_address\": {    \"recipient_name\": \"Thiago Gustavo Campos\",    \"line1\": \"Avenida dos Tarumãs, 32 – apt 123\",    \"line2\": \"Bairro\",    \"city\": \" Sâo Paulo\",  \"country_code\": \"BR\",    \"postal_code\": \" 78556224\",    \"state\": \"SP\",    \"phone\": \"(66)9371-5868\"              },    \"items\": [                {        \"name\": \"Product\",        \"description\": \"Product description\",        \"quantity\": \"2\",        \"price\": \"10.00\",        \"sku\": \"product_id_99\",        \"currency\": \"BRL\"                }]            }          }        ],\"redirect_urls\": {\"return_url\": \"http://www.<<Store URL>>.com\",\"cancel_url\": \"http://www.<<Store URL>>.com\"        }      }";
-
     const response = await fetch(PAYPAL_SANDBOX_API + CREATE_PAYMENT, {
         method: 'POST',
         //mode: 'CORS',
@@ -54,10 +51,54 @@ export async function createPayment(token) {
           }),
         body: "{\"intent\": \"sale\" ,"+
                 "\"payer\": {"+
-                    "\"payment_method\": \"paypal\""+
-                "},"+
+                            "\"payment_method\": \"paypal\""+
+
+
+                            
+                            "},"+
                 "\"application_context\": {"+
-                "\"brand_name\": \"Store\",\"shipping_preference\": \"SET_PROVIDED_ADDRESS\"},\"transactions\": [    {        \"amount\": {            \"currency\": \"BRL\",              \"total\": \"30.00\",              \"details\": {        \"shipping\": \"10.00\",                \"subtotal\": \"20.00\"              }            },    \"description\": \"Order #942342 from storeURL\",    \"payment_options\": {    \"allowed_payment_method\": \"IMMEDIATE_PAY\"            },        \"item_list\": {    \"shipping_address\": {    \"recipient_name\": \"Otávio Augusto\",    \"line1\": \"Avenida dos Tarumãs, 32 – apt 123\",    \"line2\": \"Bairro\",    \"city\": \"São Paulo\",  \"country_code\": \"BR\",    \"postal_code\": \"01402-000\",    \"state\": \"SP\",    \"phone\": \"(66)9371-5868\"              },    \"items\": [                {        \"name\": \"Product\",        \"description\": \"Product description\",        \"quantity\": \"2\",        \"price\": \"10.00\",        \"sku\": \"product_id_99\",        \"currency\": \"BRL\"                }]            }          }        ],\"redirect_urls\": {\"return_url\": \"http://www.bababababa.com\",\"cancel_url\": \"http://www.bababababa.com\"        }      }"
+                            "\"brand_name\": \"Store\","+
+                            "\"shipping_preference\": \"SET_PROVIDED_ADDRESS\""+
+                "},"+
+                "\"transactions\":[{"+
+                                "\"amount\": {"+
+                                            "\"currency\": \"BRL\","+
+                                            "\"total\": \"30.00\","+
+                                            "\"details\": {"+
+                                                        "\"shipping\": \"10.00\","+
+                                                        "\"subtotal\": \"20.00\""+
+                                                        "}"+
+                                            "},"+
+                                            "\"description\": \"Order #942342 from storeURL\","+
+                                            "\"payment_options\": {"+
+                                                                "\"allowed_payment_method\": \"IMMEDIATE_PAY\""+
+                                                                "},"+
+                                            "\"item_list\": {"+
+                                                            "\"shipping_address\": {"+
+                                                                                "\"recipient_name\": \"Otávio Augusto\","+
+                                                                                "\"line1\": \"Avenida dos Tarumãs, 32 – apt 123\","+
+                                                                                "\"line2\": \"Bairro\","+
+                                                                                "\"city\": \"São Paulo\","+
+                                                                                "\"country_code\": \"BR\","+
+                                                                                "\"postal_code\": \"01402-000\","+
+                                                                                "\"state\": \"SP\","+
+                                                                                "\"phone\": \"(66)9371-5868\""+
+                                                                                "},"+
+                                                            "\"items\": [{"+
+                                                                        "\"name\": \"Product\","+
+                                                                        "\"description\": \"Product description\","+
+                                                                        "\"quantity\": \"2\","+
+                                                                        "\"price\": \"10.00\","+
+                                                                        "\"sku\": \"product_id_99\","+
+                                                                        "\"currency\": \"BRL\""+
+                                                                        "}]"+
+                                                            "}"+
+                                    "}],"+
+                "\"redirect_urls\": {"+
+                                    "\"return_url\": \"http://www.bababababa.com\","+
+                                    "\"cancel_url\": \"http://www.bababababa.com\""+
+                                    "}"+
+                "}"
    
        
     })
@@ -66,6 +107,7 @@ export async function createPayment(token) {
 
     return finalJson  
 }
+
 //####################################################################
 //####################################################################
 //####################################################################
