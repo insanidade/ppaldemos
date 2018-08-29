@@ -6,40 +6,39 @@ import { Redirect } from 'react-router';
 //var createReactClass = require('create-react-class');
 //var ScrollBox = require('react-scroll-box').ScrollBox; // ES5
 //var GenericScrollBox = require('react-scroll-box').GenericScrollBox;
- 
 
-class ExternalButton extends Component{
 
-    constructor (props) {
+class ExternalButton extends Component {
+
+    constructor(props) {
         super(props);
         this.state = {}
-        
+
     }
 
 
 
-handleClick = (e) => {
+    handleClick = (e) => {
         e.preventDefault();
         console.log('The link was clicked.');
         //window.PAYPAL.apps.doContinue;
         this.props.onClick(this.state);
-}
+    }
 
 
-//const ResponseBoard = createReactClass({    
     render = () => {
-       /*   if (this.props.redirectState){
-            console.log('REDIRECT STATE!!!!');
-            return <Redirect push to="/sample" />;
-         } */
+        /*   if (this.props.redirectState){
+             console.log('REDIRECT STATE!!!!');
+             return <Redirect push to="/sample" />;
+          } */
         return (
-            <div align="center">            
+            <div align="center">
                 <button id="continueButton" onClick={this.handleClick}>
-                {this.props.buttonText}
+                    {this.props.buttonText}
                 </button>
             </div>
         );
-       
+
     }
 }
 
