@@ -10,7 +10,7 @@ const Header = () => (
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/ppp'>PayPal Plus</Link></li>
         <li><Link to='/refInst'>Reference with Installments</Link></li>
-        {/* <li><Link to='/schedule'>Reference (installments)</Link></li> */}
+        <li><Link to='/refnvp'>Reference (Classic)</Link></li>
       </ul>
     </nav>
   </header>

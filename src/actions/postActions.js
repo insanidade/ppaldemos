@@ -242,3 +242,132 @@ export async function retrieveCalculatedFinancing(token, ba_final) {
     return finalJson
   
 }
+
+//####################################################################
+//####################################################################
+//####################################################################
+
+export async function setExpressCheckout_() {
+    console.log('invoking setExpressCheckout');
+    
+    var http = require('https'),
+    querystring = require('querystring');
+    require('request-to-curl');
+ 
+    var postData = querystring.stringify({
+        'msg': 'Hello World!',
+        'teste': 'data teste'
+    });
+     
+    var options = {
+        hostname: 'api-3t.sandbox.paypal.com',
+        path: '/nvp',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': postData.length
+        }
+    };
+
+    
+    var req = http.request(options, (res) => {        
+        console.log('REQUEST EM CURL: '+req.toCurl());
+        
+    });
+     
+    /* req.on('error', (e) => {
+        console.log(`problem with request: ${e.message}`);
+    }); */
+     
+    // write data to request body
+    console.log('REQUEST.WRITE :'+req.write(postData));
+    
+    req.end();
+
+    //http.request.
+
+    
+    return req.response
+  
+}
+//####################################################################
+//####################################################################
+//####################################################################
+export async function setExpressCheckout(){
+    var https = require('https'),
+    querystring = require('querystring');
+    require('request-to-curl');
+    require('request');
+
+    var postData = querystring.stringify({
+        'USER': 'odefranca-bus_api1.paypal.com',
+        'PWD': 'N4YDYTL8972DZW6G',
+        'SIGNATURE': 'AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr',
+        'METHOD': 'SetExpressCheckout',
+        'VERSION':'86',
+        'PAYMENTREQUEST_0_PAYMENTACTION': 'AUTHORIZATION',    //#Payment authorization
+        'PAYMENTREQUEST_0_AMT': '25.00',//    #The amount authorized
+        'PAYMENTREQUEST_0_CURRENCYCODE': 'BRL',//    #The currency, e.g. US dollars
+        'L_BILLINGTYPE0': 'MerchantInitiatedBilling',//    #The type of billing agreement
+        'L_BILLINGAGREEMENTDESCRIPTION0': 'ClubUsage',//    #The description of the billing agreement
+        'cancelUrl': 'https://example.com/cancel', //    #For use if the consumer decides not to proceed with payment
+        'returnUrl': 'https://example.com/success'
+    });
+     
+    var options = {
+        hostname: 'api-3t.sandbox.paypal.com',
+        path: '/nvp',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': postData.length
+        }
+    };
+
+
+    var req = await https.request(options, (resp) =>{
+        
+        req.toCurl();           
+        
+        let data = '';
+
+        // A chunk of data has been recieved.
+        resp.on('data', (chunk) =>{
+            data += chunk;
+            console.log(data);
+        });        
+        
+        resp.on('end', () =>{
+            
+            console.log(querystring.stringify(data));
+        });
+
+        resp.on("error", (err) => {
+            console.log("Error: " + err.message);
+        });
+    })
+    
+    req.write(postData);
+    req.end();
+      
+    console.log(req.data)
+    
+    return (req.data)  
+}
+
+
+/* Endpoint URL: https://api-3t.sandbox.paypal.com/nvp
+HTTP method: POST
+POST data:
+USER=insert_merchant_user_name_here
+&PWD=insert_merchant_password_here
+&SIGNATURE=insert_merchant_signature_value_here
+&METHOD=SetExpressCheckout
+&VERSION=86
+&PAYMENTREQUEST_0_PAYMENTACTION=AUTHORIZATION    #Payment authorization
+&PAYMENTREQUEST_0_AMT=25.00    #The amount authorized
+&PAYMENTREQUEST_0_CURRENCYCODE=USD    #The currency, e.g. US dollars
+&L_BILLINGTYPE0=MerchantInitiatedBilling    #The type of billing agreement
+&L_BILLINGAGREEMENTDESCRIPTION0=ClubUsage    #The description of the billing agreement
+&cancelUrl=https://example.com/cancel    #For use if the consumer decides not to proceed with payment
+&returnUrl=https://example.com/success    #For use if the consumer proceeds with payment */
