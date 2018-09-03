@@ -16,8 +16,7 @@ const Main = () => (
       <Route exact path='/' component={Home}/>
       <Route path='/ppp' component={PayPalPlus}/>
       <Route path='/refInst' component={ReferenceInstallments}/>
-      <Route path='/refnvp' component={ReferenceNVP}/>
-      {/* <Route path='/schedule' component={Schedule}/> */}
+      <Route path='/refnvp' component={ReferenceNVP}/>      
     </Switch>
   </main>
 )

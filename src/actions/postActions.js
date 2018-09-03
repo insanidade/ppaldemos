@@ -1,5 +1,7 @@
-import fetch from 'isomorphic-fetch';
+//import fetch from 'isomorphic-fetch';
+import fetch from 'node-fetch';
 import * as CryptoJS from 'crypto-js';
+import querystring from 'querystring';
 
 const PAYPAL_SANDBOX_API = 'https://api.sandbox.paypal.com';
 const GET_KEY = '/v1/oauth2/token';
@@ -246,128 +248,78 @@ export async function retrieveCalculatedFinancing(token, ba_final) {
 //####################################################################
 //####################################################################
 //####################################################################
+export async function setEC(){
+    //var http = require('https'),
+    //var querystring = require('querystring');
+    //const superagent = require('superagent');
+    //const got = require('got');
+    //var finalResult;
+    //var rp = require('request-promise');
 
-export async function setExpressCheckout_() {
-    console.log('invoking setExpressCheckout');
-    
-    var http = require('https'),
-    querystring = require('querystring');
-    require('request-to-curl');
- 
-    var postData = querystring.stringify({
-        'msg': 'Hello World!',
-        'teste': 'data teste'
-    });
-     
-    var options = {
-        hostname: 'api-3t.sandbox.paypal.com',
-        path: '/nvp',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': postData.length
-        }
-    };
-
-    
-    var req = http.request(options, (res) => {        
-        console.log('REQUEST EM CURL: '+req.toCurl());
-        
-    });
-     
-    /* req.on('error', (e) => {
-        console.log(`problem with request: ${e.message}`);
-    }); */
-     
-    // write data to request body
-    console.log('REQUEST.WRITE :'+req.write(postData));
-    
-    req.end();
-
-    //http.request.
-
-    
-    return req.response
-  
-}
-//####################################################################
-//####################################################################
-//####################################################################
-export async function setExpressCheckout(){
-    var https = require('https'),
-    querystring = require('querystring');
-    require('request-to-curl');
-    require('request');
 
     var postData = querystring.stringify({
-        'USER': 'odefranca-bus_api1.paypal.com',
-        'PWD': 'N4YDYTL8972DZW6G',
-        'SIGNATURE': 'AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr',
-        'METHOD': 'SetExpressCheckout',
-        'VERSION':'86',
-        'PAYMENTREQUEST_0_PAYMENTACTION': 'AUTHORIZATION',    //#Payment authorization
-        'PAYMENTREQUEST_0_AMT': '25.00',//    #The amount authorized
-        'PAYMENTREQUEST_0_CURRENCYCODE': 'BRL',//    #The currency, e.g. US dollars
-        'L_BILLINGTYPE0': 'MerchantInitiatedBilling',//    #The type of billing agreement
-        'L_BILLINGAGREEMENTDESCRIPTION0': 'ClubUsage',//    #The description of the billing agreement
-        'cancelUrl': 'https://example.com/cancel', //    #For use if the consumer decides not to proceed with payment
-        'returnUrl': 'https://example.com/success'
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "N4YDYTL8972DZW6G",
+        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "METHOD": "SetExpressCheckout",
+        "VERSION":"204",
+        "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",    //#Payment authorization
+        "PAYMENTREQUEST_0_AMT": "0",//    #The amount authorized
+        "PAYMENTREQUEST_0_CURRENCYCODE": "BRL",//    #The currency, e.g. US dollars
+        "L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
+        "L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",//    #The description of the billing agreement
+        "cancelUrl": "https://example.com/cancel", //    #For use if the consumer decides not to proceed with payment
+        "returnUrl": "https://example.com/success"
     });
      
+    console.log(postData);
+    
     var options = {
-        hostname: 'api-3t.sandbox.paypal.com',
-        path: '/nvp',
+        uri: 'https://api-3t.sandbox.paypal.com/nvp',
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'multipart/form-data',
             'Content-Length': postData.length
-        }
-    };
+        },
+        formData: postData
+    }
 
-
-    var req = await https.request(options, (resp) =>{
-        
-        req.toCurl();           
-        
-        let data = '';
-
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) =>{
-            data += chunk;
-            console.log(data);
-        });        
-        
-        resp.on('end', () =>{
-            
-            console.log(querystring.stringify(data));
-        });
-
-        resp.on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
+    /* rp(options)
+    .then(function (body) {
+        console.log('SUCESSO: '+body.responseText);
     })
+    .catch(function (err) {
+        console.log('DEU PAU: '+err);
+    }); */
+
+    console.log('CONFIGUREI POSTDATA');
+    /* (err, res) => {
+        console.log('RES SUPERAGENT: '+res);
+        console.log('ERR SUPERAGENT: '+err);
+    }  */
+    //console.log(finalResult);
+      /* .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); */
+    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
+        method: "POST",
+        body: postData
+        /* headers: new Headers({
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"            
+        }) */
+    }).then(res => res.textConverted())
+    .then(textConverted => console.log(textConverted));
+
+    console.log('FROM FETCH: '+ decodeURI(finalResult));
+
     
-    req.write(postData);
-    req.end();
-      
-    console.log(req.data)
     
-    return (req.data)  
+    return finalResult   
 }
 
 
-/* Endpoint URL: https://api-3t.sandbox.paypal.com/nvp
-HTTP method: POST
-POST data:
-USER=insert_merchant_user_name_here
-&PWD=insert_merchant_password_here
-&SIGNATURE=insert_merchant_signature_value_here
-&METHOD=SetExpressCheckout
-&VERSION=86
-&PAYMENTREQUEST_0_PAYMENTACTION=AUTHORIZATION    #Payment authorization
-&PAYMENTREQUEST_0_AMT=25.00    #The amount authorized
-&PAYMENTREQUEST_0_CURRENCYCODE=USD    #The currency, e.g. US dollars
-&L_BILLINGTYPE0=MerchantInitiatedBilling    #The type of billing agreement
-&L_BILLINGAGREEMENTDESCRIPTION0=ClubUsage    #The description of the billing agreement
-&cancelUrl=https://example.com/cancel    #For use if the consumer decides not to proceed with payment
-&returnUrl=https://example.com/success    #For use if the consumer proceeds with payment */
+

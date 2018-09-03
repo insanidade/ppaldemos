@@ -23,9 +23,9 @@ class Form extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('valor de client id: '+this.state.clientID);
+        //console.log('valor de client id: '+this.state.clientID);
         this.props.onSubmit(this.state);
-        console.log('valor de client id 2: '+this.state.clientID);
+        //console.log('valor de client id 2: '+this.state.clientID);
     }
 
     render = () => {
