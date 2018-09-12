@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from './form';
 import ResponseBoard from './responseBoard';
-import {setEC} from '../actions/postActions';
+import {setEC_} from '../actions/postActions';
 
 import scriptLoader from 'react-async-script-loader';
 
@@ -33,11 +33,32 @@ class ReferenceNVP extends Component {
             executeUrl: '',
             token: 'EMPTY_TOKEN',
             pppRef: {},
-            billingAgreementData: ''
+            billingAgreementData: '',
+            response:''
         }
 
     }
 
+    //######################################################################################################
+    //######################################  JUST A TEST  #################################################
+    //######################################################################################################
+    //######################################################################################################
+
+    /* componentDidMount() {
+        this.callApi()
+            .then(res => this.setState({ response: res.express }))
+            .catch(err => console.log(err));
+            
+    } */
+
+    callApi = async () => {
+        const response = await fetch('/api/mensagem');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+        console.log("MEU BACKEND INFORMA!!!: "+body.express);
+        return body;
+    };
 
 
     //######################################################################################################
@@ -50,12 +71,13 @@ class ReferenceNVP extends Component {
         console.log('CHAMANDO setExpressCheckout');
 
         try {
-            outnvp = await setEC();
+            outnvp = await setEC_();
 
             console.log('CHAMOU setExpressCheckout');
             this.setState({
                 //msg: querystring.stringify(outnvp),
-                jsonResponseObj: outnvp  
+                jsonResponseObj: decodeURI(outnvp),
+                response: JSON.parse(outnvp).TOKEN
                 //token: outnvp.access_token
 
             });
@@ -85,7 +107,7 @@ class ReferenceNVP extends Component {
 
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}
-                    msg={this.state.msg}>
+                    msg={this.state.response}>
                 </ResponseBoard>
             </div>
         );

@@ -48,7 +48,8 @@ export async function createPayment(token, billingAgreementData) {
         headers: new Headers({
             'Content-Type': 'application/json',
             //'Accept-Language':'en_US', 
-            //'Content-Type': 'application/x-www-form-urlencoded',           
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
             'Authorization':'Bearer ' + token
           }),
         body: "{\"intent\": \"sale\" ,"+
@@ -264,7 +265,7 @@ export async function setEC(){
         "METHOD": "SetExpressCheckout",
         "VERSION":"204",
         "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",    //#Payment authorization
-        "PAYMENTREQUEST_0_AMT": "0",//    #The amount authorized
+        "PAYMENTREQUEST_0_AMT": "0",//    #The amount authorized (USAR ESTE CAMPO PARA NEGATIVE TESTING)
         "PAYMENTREQUEST_0_CURRENCYCODE": "BRL",//    #The currency, e.g. US dollars
         "L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
         "L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",//    #The description of the billing agreement
@@ -321,5 +322,16 @@ export async function setEC(){
     return finalResult   
 }
 
+//####################################################################
+//####################################################################
+//####################################################################
+export async function setEC_() {
+    const response = await fetch('/api/setEC');
+    const body = await response.text();// .json();
+    if (response.status !== 200) throw Error(body.message);
+
+    console.log("MEU BACKEND INFORMA!!!: " + body);
+    return body;
+}
 
 

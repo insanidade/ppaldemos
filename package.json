@@ -1,36 +1,16 @@
 {
-  "name": "ppplus",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/react-redux": "^6.0.6",
-    "ajv": "^6.5.3",
-    "antd": "^3.8.4",
-    "concurrently": "^4.0.1",
-    "create-react-class": "^15.6.3",
-    "crypto-js": "^3.1.9-1",
-    "curlrequest": "^1.0.1",
-    "node-fetch": "^2.2.0",
-    "query-string": "^6.1.0",
-    "react": "^16.4.2",
-    "react-async-script-loader": "^0.3.0",
-    "react-dom": "^16.4.2",
-    "react-dropdown": "^1.6.2",
-    "react-json-pretty": "^1.7.9",
-    "react-load-script": "0.0.6",
-    "react-router-dom": "^4.3.1",
-    "react-script-tag": "^1.1.2",
-    "react-scripts": "1.1.4",
-    "react-scroll-box": "^0.3.5",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.2",
-    "request-to-curl": "^0.1.1",
-    "yarn": "^1.9.4"
-  },
+  "name": "node-react",
+  "version": "1.0.0",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client": "cd client && npm start",
+    "server": "node --inspect server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "node-fetch": "^2.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
   }
 }
