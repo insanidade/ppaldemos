@@ -8,14 +8,12 @@ const port = process.env.PORT || 5000;
 app.get('/api/mensagem', (req, res) => {
     console.log("SERVIDOR CHAMANDO");
 
-    res.send({ express: 'Hello From Express, Otávio!' });
+    res.send({ express: 'Reference com NVP' });
 });
 
 app.get('/api/setEC', (req, res) => {
     console.log("SERVIDOR: CHAMADA REMOTA SetExpressCheckout");
-
-    var querystring = require('querystring');
-    
+    var querystring = require('querystring');    
 
     var postData = querystring.stringify({
         "USER": "odefranca-bus_api1.paypal.com",
@@ -29,7 +27,7 @@ app.get('/api/setEC', (req, res) => {
         "L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
         "L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",// #The description of the billing agreement
         "cancelUrl": "https://example.com/cancel", //#For use if the consumer decides not to proceed with payment
-        "returnUrl": "https://example.com/success"
+        "returnUrl": "http://localhost:3000/refnvp"
     });
 
     console.log(postData);

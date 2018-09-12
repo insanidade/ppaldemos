@@ -1,27 +1,14 @@
 import React, { Component } from 'react';
-import Form from './form';
+import FormSimple from './formSimple';
+import ExternalButton from './externalButton'
 import ResponseBoard from './responseBoard';
-import {setEC_} from '../actions/postActions';
+import {setEC} from '../actions/postActions';
 
 import scriptLoader from 'react-async-script-loader';
 
+//https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_expresscheckout&token=InsertTokenHere
 
-
-/* Endpoint URL: https://api-3t.sandbox.paypal.com/nvp
-HTTP method: POST
-POST data:
-USER=insert_merchant_user_name_here
-&PWD=insert_merchant_password_here
-&SIGNATURE=insert_merchant_signature_value_here
-&METHOD=SetExpressCheckout
-&VERSION=86
-&PAYMENTREQUEST_0_PAYMENTACTION=AUTHORIZATION    #Payment authorization
-&PAYMENTREQUEST_0_AMT=25.00    #The amount authorized
-&PAYMENTREQUEST_0_CURRENCYCODE=USD    #The currency, e.g. US dollars
-&L_BILLINGTYPE0=MerchantInitiatedBilling    #The type of billing agreement
-&L_BILLINGAGREEMENTDESCRIPTION0=ClubUsage    #The description of the billing agreement
-&cancelUrl=https://example.com/cancel    #For use if the consumer decides not to proceed with payment
-&returnUrl=https://example.com/success    #For use if the consumer proceeds with payment */
+const APPROVAL_URL_REDIRECT = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=';
 
 class ReferenceNVP extends Component {
 
@@ -71,13 +58,14 @@ class ReferenceNVP extends Component {
         console.log('CHAMANDO setExpressCheckout');
 
         try {
-            outnvp = await setEC_();
+            outnvp = await setEC();
 
             console.log('CHAMOU setExpressCheckout');
             this.setState({
                 //msg: querystring.stringify(outnvp),
                 jsonResponseObj: decodeURI(outnvp),
-                response: JSON.parse(outnvp).TOKEN
+                response: JSON.parse(outnvp).TOKEN,
+                token: JSON.parse(outnvp).TOKEN
                 //token: outnvp.access_token
 
             });
@@ -91,6 +79,23 @@ class ReferenceNVP extends Component {
     }
 
 
+    //################################################################################################
+    //################################################################################################
+    handleClickApprovalRedirect = async (data) => {
+        console.log('Form value raw: ' + data);
+        try {
+            window.location.assign(APPROVAL_URL_REDIRECT+this.state.token);
+            this.setState({ calc_fin_invoked: false });
+            //this.renderRedirect();
+            //this.props.history.(this.state.executeUrl)
+            console.log('CLICOU NO BOTAO EXTERNO');
+        } catch (err) {
+            this.setState(
+                { msg: 'Request error: ' + err }
+            );
+        }
+    }
+
     //######################################################################################################
     //######################################################################################################
 
@@ -98,12 +103,19 @@ class ReferenceNVP extends Component {
         //console.log('Form value raw 2: ' + this.state.jsonResponseObj.access_token);
         return (
             <div align="center">
-                <Form
+                <FormSimple
                     onSubmit={this.handleSetExpressCheckout}>
-                </Form>
+                </FormSimple>
                 <br />
 
+                <ExternalButton
+                    buttonText='Checkout'
+                    onClick={this.handleClickApprovalRedirect}>
+                </ExternalButton>
+
                 <hr />
+
+                
 
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}
