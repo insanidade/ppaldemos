@@ -3,6 +3,7 @@ import FormSimple from './formSimple';
 import ExternalButton from './externalButton'
 import ResponseBoard from './responseBoard';
 import {setEC} from '../actions/postActions';
+import {createBANvp} from '../actions/postActions'
 
 import scriptLoader from 'react-async-script-loader';
 
@@ -20,7 +21,7 @@ class ReferenceNVP extends Component {
             executeUrl: '',
             token: 'EMPTY_TOKEN',
             pppRef: {},
-            billingAgreementData: '',
+            billingAgreement: '',
             response:''
         }
 
@@ -38,6 +39,22 @@ class ReferenceNVP extends Component {
             
     } */
 
+    componentDidMount() {
+
+        var qs = require('querystring');
+        console.log('PROPRIEDADES!!!!!!!!!!!!!!!!!!! ' + this.props.location.search);
+        const values = qs.parse(this.props.location.search, '?');
+        console.log(values.token);
+
+        this.setState({ 
+            jsonResponseObj: values.token,
+            response: values.token,
+            token: values.token 
+        })
+        
+        console.log('BEARER TOKEN VINDO DO CACHE: ' + this.state.token)
+    }
+
     callApi = async () => {
         const response = await fetch('/api/mensagem');
         const body = await response.json();
@@ -47,6 +64,35 @@ class ReferenceNVP extends Component {
         return body;
     };
 
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+
+    handleCreateBA = async (data) => {
+        var outnvp;
+        console.log('CHAMANDO CreateBillingAgreement');
+
+        try {
+            outnvp = await createBANvp(this.state.token);
+
+            console.log('CHAMOU CreateBillingAgreement');
+            this.setState({
+                //msg: querystring.stringify(outnvp),
+                jsonResponseObj: decodeURI(outnvp),
+                response: JSON.parse(outnvp).BILLINGAGREEMENTID,
+                billingAgreement: JSON.parse(outnvp).BILLINGAGREEMENTID
+                //token: outnvp.access_token
+
+            });
+            //console.log('RESPOSTA NVP: ' + outnvp);
+        } catch (err) {
+            console.log('ERROR!!')
+            this.setState(
+                { msg: 'Request error: '+err }
+            );
+        }
+    }
 
     //######################################################################################################
     //######################################################################################################
@@ -113,9 +159,11 @@ class ReferenceNVP extends Component {
                     onClick={this.handleClickApprovalRedirect}>
                 </ExternalButton>
 
-                <hr />
-
-                
+                <hr /> 
+                <ExternalButton
+                    buttonText='Request BA'
+                    onClick={this.handleCreateBA}>
+                </ExternalButton>              
 
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}

@@ -245,7 +245,18 @@ export async function retrieveCalculatedFinancing(token, ba_final) {
     return finalJson
   
 }
+//####################################################################
+//####################################################################
+//####################################################################
+export async function createBANvp(token) {
+    console.log('BACKEND: TOKEN PARA OBTER BA É '+token)
+    const response = await fetch('/api/createBA?token='+token);
+    const body = await response.text();// .json();
+    if (response.status !== 200) throw Error(body.message);
 
+    console.log("MEU BACKEND INFORMA!!!: " + body);
+    return body;
+}
 //####################################################################
 //####################################################################
 //####################################################################
