@@ -249,12 +249,12 @@ export async function retrieveCalculatedFinancing(token, ba_final) {
 //####################################################################
 //####################################################################
 export async function createBANvp(token) {
-    console.log('BACKEND: TOKEN PARA OBTER BA É '+token)
+    console.log('FRONTEND: TOKEN PARA OBTER BA É '+token)
     const response = await fetch('/api/createBA?token='+token);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 
-    console.log("MEU BACKEND INFORMA!!!: " + body);
+    console.log("MEU FRONTEND INFORMA!!!: " + body);
     return body;
 }
 //####################################################################
@@ -265,8 +265,19 @@ export async function setEC() {
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 
-    console.log("MEU BACKEND INFORMA!!!: " + body);
+    console.log("MEU FRONTEND INFORMA!!!: " + body);
     return body;
 }
 
+//####################################################################
+//####################################################################
+//####################################################################
+export async function doRef(billingAgreement) {
+    const response = await fetch('/api/doRef?ba='+billingAgreement);
+    const body = await response.text();// .json();
+    if (response.status !== 200) throw Error(body.message);
+
+    console.log("MEU FRONTEND INFORMA!!!: " + body);
+    return body;
+}
 

@@ -11,7 +11,41 @@ app.get('/api/mensagem', (req, res) => {
     res.send({ express: 'Reference com NVP' });
 });
 
+//#############################################################################
+//#############################################################################
+//#############################################################################
+app.get('/api/doRef', (req, res) => {
+    console.log("SERVIDOR: CHAMADA REMOTA DoReferenceTransaction");
+    console.log("SERVIDOR: PARAMETROS =>" +req.query.ba);
+    var querystring = require('querystring');   
 
+   
+    var postData = querystring.stringify({
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "N4YDYTL8972DZW6G",
+        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "METHOD": "DoReferenceTransaction",
+        "VERSION":"204",
+        "AMT":"50",//#The amount the buyer will pay in a payment period
+        "CURRENCYCODE":"BRL", //#The currency, such as US dollars
+        "PAYMENTACTION":"SALE",    //#The type of payment
+        "REFERENCEID":req.query.ba
+    });
+
+    console.log(postData);
+    
+
+    console.log('CONFIGURADO POSTDATA');
+   
+    const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
+        method: "POST",
+        body: postData
+       
+    }).then(resp => resp.text())
+    .then(
+        textConverted => res.send(querystring.parse(textConverted))) ;
+
+});
 //#############################################################################
 //#############################################################################
 //#############################################################################

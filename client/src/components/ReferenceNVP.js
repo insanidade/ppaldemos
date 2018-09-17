@@ -3,7 +3,8 @@ import FormSimple from './formSimple';
 import ExternalButton from './externalButton'
 import ResponseBoard from './responseBoard';
 import {setEC} from '../actions/postActions';
-import {createBANvp} from '../actions/postActions'
+import {createBANvp} from '../actions/postActions';
+import {doRef} from '../actions/postActions';
 
 import scriptLoader from 'react-async-script-loader';
 
@@ -22,7 +23,10 @@ class ReferenceNVP extends Component {
             token: 'EMPTY_TOKEN',
             pppRef: {},
             billingAgreement: '',
-            response:''
+            response:'',
+            transactionID:'',
+            paymentStatus:'',
+            paymentType:''
         }
 
     }
@@ -63,6 +67,36 @@ class ReferenceNVP extends Component {
         console.log("MEU BACKEND INFORMA!!!: "+body.express);
         return body;
     };
+
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+
+    handleDoRef = async (data) => {
+        var outnvp;
+        console.log('CHAMANDO DoReferenceTransaction');
+
+        try {
+            outnvp = await doRef(this.state.billingAgreement);
+
+            console.log('CHAMOU DoReferenceTransaction');
+            this.setState({
+                //msg: querystring.stringify(outnvp),
+                jsonResponseObj: decodeURI(outnvp),
+                response: JSON.parse(outnvp).ACK,
+                transactionID: JSON.parse(outnvp).TRANSACTIONID,
+                paymentStatus: JSON.parse(outnvp).PAYMENTSTATUS,
+                paymentType: JSON.parse(outnvp).PAYMENTTYPE
+            });
+            //console.log('RESPOSTA NVP: ' + outnvp);
+        } catch (err) {
+            console.log('ERROR!!')
+            this.setState(
+                { msg: 'Request error: '+err }
+            );
+        }
+    }
 
     //######################################################################################################
     //######################################################################################################
@@ -165,9 +199,18 @@ class ReferenceNVP extends Component {
                     onClick={this.handleCreateBA}>
                 </ExternalButton>              
 
+                <hr /> 
+                <ExternalButton
+                    buttonText='Pay (DoRef)'
+                    onClick={this.handleDoRef}>
+                </ExternalButton>              
+
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}
-                    msg={this.state.response}>
+                    msg={this.state.response + ', ' +                    
+                    this.state.transactionID + ', ' + 
+                    this.state.paymentStatus + ', ' + 
+                    this.state.paymentType}>
                 </ResponseBoard>
             </div>
         );
