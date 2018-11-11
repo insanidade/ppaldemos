@@ -5,8 +5,8 @@ class Form extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            clientID: this.props.clientid || 'ASpwwK3e6Xq319fcTEY4asiXBYzRZQK3kJLVZH5mQYf_7ZJw7cKzIScarLFGWwqcObuTKKYMPw6RLADw',
-            secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j'
+            clientID: this.props.clientid,// || 'AYMGJl2GTe2fO0fQd4PyEHmtD6o7GnXSUaH7GFhl6GQDy2HRZ42aDhgrkcx_b_E5bTL2h19jQMCGJXJF',
+            secret: this.props.secret //|| 'EPV1gUHgDGtpKNROYZ_2evOxSHANbI-PVnCQG_CeJB49AzcVgTfpnWYLa2mtTHcBuXKs0_awCvmULBZm'
         }
     }
 

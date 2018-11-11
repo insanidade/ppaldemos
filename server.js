@@ -17,6 +17,8 @@ app.get('/api/mensagem', (req, res) => {
 app.get('/api/doRef', (req, res) => {
     console.log("SERVIDOR: CHAMADA REMOTA DoReferenceTransaction");
     console.log("SERVIDOR: PARAMETROS =>" +req.query.ba);
+    console.log("SERVIDOR: PARAMETROS =>" +req.hostname);
+    console.log("SERVIDOR: PARAMETROS =>" +req.ip);
     var querystring = require('querystring');   
 
    
@@ -26,7 +28,7 @@ app.get('/api/doRef', (req, res) => {
         "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
         "METHOD": "DoReferenceTransaction",
         "VERSION":"204",
-        "AMT":"50",//#The amount the buyer will pay in a payment period
+        "AMT":"104.17",//#The amount the buyer will pay in a payment period
         "CURRENCYCODE":"BRL", //#The currency, such as US dollars
         "PAYMENTACTION":"SALE",    //#The type of payment
         "REFERENCEID":req.query.ba
@@ -128,6 +130,10 @@ app.get('/api/createBA', (req, res) => {
 //#############################################################################
 app.get('/api/setEC', (req, res) => {
     console.log("SERVIDOR: CHAMADA REMOTA SetExpressCheckout");
+
+    console.log("SERVIDOR: LABEL =>" +req.query.errMockLabel);
+    console.log("SERVIDOR: VALUE =>" +req.query.errMockValue);
+
     var querystring = require('querystring');    
 
     var postData = querystring.stringify({
@@ -136,8 +142,10 @@ app.get('/api/setEC', (req, res) => {
         "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
         "METHOD": "SetExpressCheckout",
         "VERSION":"204",
+        "MAXAMT": req.query.errMockValue,
         "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",    //#Payment authorization
-        "PAYMENTREQUEST_0_AMT": "0",//    #The amount authorized
+        "PAYMENTREQUEST_0_AMT": req.query.errMockValue,//    #The amount authorized
+        //"AMT": req.query.errMockValue,//    #The amount authorized
         "PAYMENTREQUEST_0_CURRENCYCODE": "BRL",//    #The currency, e.g. US dollars
         "L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
         "L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",// #The description of the billing agreement

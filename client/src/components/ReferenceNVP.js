@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import FormSimple from './formSimple';
 import ExternalButton from './externalButton'
 import ResponseBoard from './responseBoard';
-import {setEC} from '../actions/postActions';
-import {createBANvp} from '../actions/postActions';
-import {doRef} from '../actions/postActions';
+import DropDownNVP from './DropDownNVP';
+import { setEC } from '../actions/postActions';
+import { createBANvp } from '../actions/postActions';
+import { doRef } from '../actions/postActions';
 
 import scriptLoader from 'react-async-script-loader';
+//import DropDownNVP from './DropDownNVP';
 
 //https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_expresscheckout&token=InsertTokenHere
 
@@ -23,10 +25,11 @@ class ReferenceNVP extends Component {
             token: 'EMPTY_TOKEN',
             pppRef: {},
             billingAgreement: '',
-            response:'',
-            transactionID:'',
-            paymentStatus:'',
-            paymentType:''
+            response: '',
+            transactionID: '',
+            paymentStatus: '',
+            paymentType: '',
+            mock_negative_test_obj: {}
         }
 
     }
@@ -50,12 +53,12 @@ class ReferenceNVP extends Component {
         const values = qs.parse(this.props.location.search, '?');
         console.log(values.token);
 
-        this.setState({ 
+        this.setState({
             jsonResponseObj: values.token,
             response: values.token,
-            token: values.token 
+            token: values.token
         })
-        
+
         console.log('BEARER TOKEN VINDO DO CACHE: ' + this.state.token)
     }
 
@@ -64,7 +67,7 @@ class ReferenceNVP extends Component {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
 
-        console.log("MEU BACKEND INFORMA!!!: "+body.express);
+        console.log("MEU BACKEND INFORMA!!!: " + body.express);
         return body;
     };
 
@@ -93,7 +96,7 @@ class ReferenceNVP extends Component {
         } catch (err) {
             console.log('ERROR!!')
             this.setState(
-                { msg: 'Request error: '+err }
+                { msg: 'Request error: ' + err }
             );
         }
     }
@@ -123,7 +126,7 @@ class ReferenceNVP extends Component {
         } catch (err) {
             console.log('ERROR!!')
             this.setState(
-                { msg: 'Request error: '+err }
+                { msg: 'Request error: ' + err }
             );
         }
     }
@@ -136,9 +139,11 @@ class ReferenceNVP extends Component {
     handleSetExpressCheckout = async (data) => {
         var outnvp;
         console.log('CHAMANDO setExpressCheckout');
+        console.log('MOCK VALUE: '+this.state.mock_negative_test_obj.value);
 
         try {
-            outnvp = await setEC();
+            outnvp = await setEC(this.state.mock_negative_test_obj.label, 
+                this.state.mock_negative_test_obj.value);
 
             console.log('CHAMOU setExpressCheckout');
             this.setState({
@@ -153,7 +158,7 @@ class ReferenceNVP extends Component {
         } catch (err) {
             console.log('ERROR!!')
             this.setState(
-                { msg: 'Request error: '+err }
+                { msg: 'Request error: ' + err }
             );
         }
     }
@@ -164,7 +169,7 @@ class ReferenceNVP extends Component {
     handleClickApprovalRedirect = async (data) => {
         console.log('Form value raw: ' + data);
         try {
-            window.location.assign(APPROVAL_URL_REDIRECT+this.state.token);
+            window.location.assign(APPROVAL_URL_REDIRECT + this.state.token);
             this.setState({ calc_fin_invoked: false });
             //this.renderRedirect();
             //this.props.history.(this.state.executeUrl)
@@ -179,13 +184,48 @@ class ReferenceNVP extends Component {
     //######################################################################################################
     //######################################################################################################
 
+    handleSubmitSelectNegativeDropDown = async (data) => {
+        console.log('dropdown value raw: ' + data.label);
+        this.setState(
+            { mock_negative_test_obj: data }
+        );
+        try {
+
+        } catch (err) {
+            this.setState(
+                { msg: 'Request error' }
+            );
+        }
+    }
+    //######################################################################################################
+    //######################################################################################################
     render = () => {
         //console.log('Form value raw 2: ' + this.state.jsonResponseObj.access_token);
         return (
             <div align="center">
-                <FormSimple
-                    onSubmit={this.handleSetExpressCheckout}>
-                </FormSimple>
+
+
+                <table width="40%" border="2" bordercolor="green" >
+                    <tr>
+                        <th>Set Express Checkout</th>
+                        <th>Select Negative Testing</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <FormSimple
+                                onSubmit={this.handleSetExpressCheckout}>
+                            </FormSimple>
+                        </th>
+                        <th>
+                            <DropDownNVP
+                                onClick={this.handleSubmitSelectNegativeDropDown}>
+                            </DropDownNVP>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </table>
+
                 <br />
 
                 <ExternalButton
@@ -193,24 +233,24 @@ class ReferenceNVP extends Component {
                     onClick={this.handleClickApprovalRedirect}>
                 </ExternalButton>
 
-                <hr /> 
+                <hr />
                 <ExternalButton
                     buttonText='Request BA'
                     onClick={this.handleCreateBA}>
-                </ExternalButton>              
+                </ExternalButton>
 
-                <hr /> 
+                <hr />
                 <ExternalButton
                     buttonText='Pay (DoRef)'
                     onClick={this.handleDoRef}>
-                </ExternalButton>              
+                </ExternalButton>
 
                 <ResponseBoard
                     authObj={this.state.jsonResponseObj}
-                    msg={this.state.response + ', ' +                    
-                    this.state.transactionID + ', ' + 
-                    this.state.paymentStatus + ', ' + 
-                    this.state.paymentType}>
+                    msg={this.state.response + ', ' +
+                        this.state.transactionID + ', ' +
+                        this.state.paymentStatus + ', ' +
+                        this.state.paymentType}>
                 </ResponseBoard>
             </div>
         );

@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import querystring from 'querystring';
 
 const PAYPAL_SANDBOX_API = 'https://api.sandbox.paypal.com';
+const PAYPAL_PROD_API = 'https://api.sandbox.paypal.com';
 const GET_KEY = '/v1/oauth2/token';
 const CREATE_PAYMENT = '/v1/payments/payment';
 const EXECUTE_PAYMENT = '/execute/';
@@ -15,8 +16,9 @@ const CALCULATED_FINANCING = '/v1/credit/calculated-financing-options';
 
 export async function createToken(data) {
     console.log('invoking createToken: ' + data.clientID);
+    console.log('invoking createToken secret: ' + data.secret);
 
-    const response = await fetch(PAYPAL_SANDBOX_API + GET_KEY, {
+    const response = await fetch(PAYPAL_PROD_API + GET_KEY, {
         method: 'POST',
         //mode: 'CORS',
         headers: new Headers({
@@ -49,15 +51,12 @@ export async function createPayment(token, billingAgreementData) {
             'Content-Type': 'application/json',
             //'Accept-Language':'en_US', 
             //'Content-Type': 'application/x-www-form-urlencoded',
-            'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
+            //'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
             'Authorization':'Bearer ' + token
           }),
         body: "{\"intent\": \"sale\" ,"+
                 "\"payer\": {"+
-                            "\"payment_method\": \"paypal\""+
-
-
-                            
+                            "\"payment_method\": \"paypal\""+                            
                             "},"+
                 "\"application_context\": {"+
                             "\"brand_name\": \"Store\","+
@@ -66,10 +65,10 @@ export async function createPayment(token, billingAgreementData) {
                 "\"transactions\":[{"+
                                 "\"amount\": {"+
                                             "\"currency\": \"BRL\","+
-                                            "\"total\": \"30.00\","+
+                                            "\"total\": \"120.00\","+
                                             "\"details\": {"+
-                                                        "\"shipping\": \"10.00\","+
-                                                        "\"subtotal\": \"20.00\""+
+                                                        "\"shipping\": \"20.00\","+
+                                                        "\"subtotal\": \"100.00\""+
                                                         "}"+
                                             "},"+
                                             "\"description\": \"Order #942342 from storeURL\","+
@@ -91,7 +90,7 @@ export async function createPayment(token, billingAgreementData) {
                                                                         "\"name\": \"Product\","+
                                                                         "\"description\": \"Product description\","+
                                                                         "\"quantity\": \"2\","+
-                                                                        "\"price\": \"10.00\","+
+                                                                        "\"price\": \"50.00\","+
                                                                         "\"sku\": \"product_id_99\","+
                                                                         "\"currency\": \"BRL\""+
                                                                         "}]"+
@@ -102,6 +101,175 @@ export async function createPayment(token, billingAgreementData) {
                                     "\"cancel_url\": \"http://www.bababababa.com\""+
                                     "}"+
                 "}"
+   
+       
+    })
+    const finalJson = await response.json();
+    console.log('FINAL: '+ JSON.stringify(finalJson));
+
+    return finalJson  
+}
+
+//####################################################################
+//####################################################################
+//####################################################################
+
+export async function capturePaymentWithInstallments(token, billingAgreement, json, installments, negativeTestObj) {
+    console.log('invoking createPayment com token: ' + token);
+    var index = installments - 1;
+    var term = json.financing_options[0].qualifying_financing_options[index].credit_financing.term;
+    var value = json.financing_options[0].qualifying_financing_options[index].monthly_payment.value;
+    
+    var discount_percentage = 0;
+    var disc_value = 0;
+    var currency = 'BRL';
+    if (typeof (json.financing_options[0].qualifying_financing_options[index].discount_amount) != 'undefined'){
+        discount_percentage = json.financing_options[0].qualifying_financing_options[index].discount_percentage;
+        disc_value = json.financing_options[0].qualifying_financing_options[index].discount_amount.value;
+        currency = json.financing_options[0].qualifying_financing_options[index].discount_amount.currency_code;
+    }
+    
+     
+    /* var bodytemp = "{\"intent\": \"sale\" ,"+
+    "\"payer\": {"+
+                "\"payment_method\": \"paypal\","+                            
+                "\"funding_instruments\":["+
+                    "{"+
+                       "\"billing\":{"+
+                          "\"billing_agreement_id\":\""+billingAgreement+"\","+
+                          "\"selected_installment_option\":{"+
+                             "\"term\":"+term+","+
+                             "\"monthly_payment\":{"+
+                                "\"value\":"+value+","+
+                                "\"currency\":\""+currency+"\""+
+                             "},"+
+                             "\"discount_percentage\":"+discount_percentage+","+
+                             "\"discount_amount\":{"+
+                                "\"value\":"+disc_value+","+
+                                "\"currency\":\""+currency+"\""+
+                             "}"+
+                          "}"+
+                       "}"+
+                    "}"+
+                 "]"+
+                "},"+                
+    "\"transactions\":[{"+
+                    "\"amount\": {"+
+                                "\"currency\": \"BRL\","+
+                                "\"total\": \"120.00\""+                                            
+                                "},"+
+                                "\"description\": \"Order #942342 from storeURL\","+
+                                "\"payment_options\": {"+
+                                                    "\"allowed_payment_method\": \"IMMEDIATE_PAY\""+
+                                                    "},"+
+                                "\"item_list\": {"+
+                                                "\"shipping_address\": {"+
+                                                                    "\"recipient_name\": \"Otávio Augusto\","+
+                                                                    "\"line1\": \"Avenida dos Tarumãs, 32 – apt 123\","+
+                                                                    "\"line2\": \"Bairro\","+
+                                                                    "\"city\": \"São Paulo\","+
+                                                                    "\"country_code\": \"BR\","+
+                                                                    "\"postal_code\": \"01402-000\","+
+                                                                    "\"state\": \"SP\","+
+                                                                    "\"phone\": \"(66)9371-5868\""+
+                                                                    "},"+
+                                                "\"items\": [{"+
+                                                            "\"name\": \"Product\","+
+                                                            "\"description\": \"Product description\","+
+                                                            "\"quantity\": \"2\","+
+                                                            "\"price\": \"60.00\","+
+                                                            "\"sku\": \"product_id_99\","+
+                                                            "\"currency\": \"BRL\""+
+                                                            "}]"+
+                                                "}"+
+                        "}],"+
+    "\"redirect_urls\": {"+
+                        "\"return_url\": \"http://www.bababababa.com\","+
+                        "\"cancel_url\": \"http://www.bababababa.com\""+
+                        "}"+
+    "}"; */
+    //var mock_content = "'PayPal-Mock-Response': '{\"mock_application_codes\": \"" +negativeTestObj.label+ "\"}',";
+
+    var headersObj = {
+        'Content-Type': 'application/json',
+        'PayPal-Mock-Response': '{\"mock_application_codes\": \"' + negativeTestObj.label + '\"}',
+        //'Content-Type': 'application/x-www-form-urlencoded',
+        //'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
+        'Authorization': 'Bearer ' + token
+    };
+    if (0 > negativeTestObj.value) {
+        headersObj = {
+            'Content-Type': 'application/json',
+            //'Content-Type': 'application/x-www-form-urlencoded',
+            //'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
+            'Authorization': 'Bearer ' + token
+        }
+    }
+
+    var dynHeader = new Headers(headersObj);
+
+    const response = await fetch(PAYPAL_SANDBOX_API + CREATE_PAYMENT, {
+        method: 'POST',
+        //mode: 'CORS',
+        headers: dynHeader,
+        body: "{\"intent\": \"sale\" ,"+
+        "\"payer\": {"+
+                    "\"payment_method\": \"paypal\","+                            
+                    "\"funding_instruments\":["+
+                        "{"+
+                           "\"billing\":{"+
+                              "\"billing_agreement_id\":\""+billingAgreement+"\","+
+                              "\"selected_installment_option\":{"+
+                                 "\"term\":"+term+","+
+                                 "\"monthly_payment\":{"+
+                                    "\"value\":"+value+","+
+                                    "\"currency\":\""+currency+"\""+
+                                 "},"+
+                                 "\"discount_percentage\":"+discount_percentage+","+
+                                 "\"discount_amount\":{"+
+                                    "\"value\":"+disc_value+","+
+                                    "\"currency\":\""+currency+"\""+
+                                 "}"+
+                              "}"+
+                           "}"+
+                        "}"+
+                     "]"+
+                    "},"+                
+        "\"transactions\":[{"+
+                        "\"amount\": {"+
+                                    "\"currency\": \"BRL\","+
+                                    "\"total\": \"120.00\""+                                            
+                                    "},"+
+                                    "\"description\": \"Order #942342 from storeURL\","+
+                                    "\"payment_options\": {"+
+                                                        "\"allowed_payment_method\": \"IMMEDIATE_PAY\""+
+                                                        "},"+
+                                    "\"item_list\": {"+
+                                                    "\"shipping_address\": {"+
+                                                                        "\"recipient_name\": \"Otávio Augusto\","+
+                                                                        "\"line1\": \"Avenida dos Tarumãs, 32 – apt 123\","+
+                                                                        "\"line2\": \"Bairro\","+
+                                                                        "\"city\": \"São Paulo\","+
+                                                                        "\"country_code\": \"BR\","+
+                                                                        "\"postal_code\": \"01402-000\","+
+                                                                        "\"state\": \"SP\","+
+                                                                        "\"phone\": \"(66)9371-5868\""+
+                                                                        "},"+
+                                                    "\"items\": [{"+
+                                                                "\"name\": \"Product\","+
+                                                                "\"description\": \"Product description\","+
+                                                                "\"quantity\": \"2\","+
+                                                                "\"price\": \"60.00\","+
+                                                                "\"sku\": \"product_id_99\","+
+                                                                "\"currency\": \"BRL\""+
+                                                                "}]"+
+                                                    "}"+
+                            "}],"+
+        "\"redirect_urls\": {"+
+                            "\"return_url\": \"http://www.bababababa.com\","+
+                            "\"cancel_url\": \"http://www.bababababa.com\""+
+                            "}"+
+        "}"
    
        
     })
@@ -260,8 +428,8 @@ export async function createBANvp(token) {
 //####################################################################
 //####################################################################
 //####################################################################
-export async function setEC() {
-    const response = await fetch('/api/setEC');
+export async function setEC(erroCodeLabel, errorCodeVAlue) {
+    const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 

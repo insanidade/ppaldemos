@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-import { createToken } from '../actions/postActions';
+import { createToken, capturePaymentWithInstallments } from '../actions/postActions';
 import { createBAToken } from '../actions/postActions';
 import { createFinalBA } from '../actions/postActions';
 import { executePayment } from '../actions/postActions';
@@ -8,11 +8,13 @@ import Form from './form';
 import ResponseBoard from './responseBoard';
 import FormCheckout from './formCheckout';
 import ExternalButton from './externalButton';
+import Dropdown from './DropDown';
 import qs from 'query-string'
 import theImage from '../images/beer_ref_inst.jpeg';
 import { retrieveCalculatedFinancing } from '../actions/postActions';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css'
+/* import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css' */
+import FormSingle from './FormSingle';
 
 
 const CREDIT_FINANCING_INSTALLMENTS_MIN_AMOUNT = 1;
@@ -38,7 +40,10 @@ class ReferenceInstallments extends Component {
             ba_final: '',
             url_cancel_ba_final: '',
             calc_fin_invoked: false,
-            installments: {}
+            installments: {},
+            installmentsFullData: {},
+            selectedValue:'',
+            mock_negative_test_obj: {}
         }
 
     }
@@ -104,6 +109,26 @@ class ReferenceInstallments extends Component {
             });
             localStorage.setItem('bearer_Token', this.state.token);
             console.log('TOKEN PREENCHIDO: ' + this.state.token);
+        } catch (err) {
+            this.setState(
+                { msg: 'Request error' }
+            );
+        }
+    }
+
+    
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+    //######################################################################################################
+
+    handleSubmitSelectNegativeDropDown = async (data) => {
+        console.log('dropdown value raw: ' + data.label);
+        this.setState(
+            { mock_negative_test_obj: data }
+        );
+        try {
+          
         } catch (err) {
             this.setState(
                 { msg: 'Request error' }
@@ -243,7 +268,44 @@ class ReferenceInstallments extends Component {
             outjson = await retrieveCalculatedFinancing(this.state.token, this.state.ba_final);
             console.log('TERMINOU CHAMADA DE CALCULATE FINANCING');
 
+            
+
             this.state.installments = this.collectInstallmentsData(outjson);
+
+            this.setState({
+                //msg: JSON.stringify(outjson),
+                installmentsFullData: outjson,                
+                jsonResponseObj: outjson,
+                calc_fin_invoked: true
+                             
+            });
+
+        } catch (err) {
+            console.log(err.message);
+            this.setState(
+                {                    
+                    jsonResponseObj: '',
+                    msg: 'Request error: ' + JSON.stringify(outjson)
+                }
+            );
+        }
+    }
+    //######################################################################################################
+    //######################################################################################################
+    handleSubmitCapturePaymentInstallments = async (data) => {
+        var outjson;
+
+        console.log('Form value raw para installments: ' + data.installments);
+        console.log('ACCESS TOKEN: ' + this.state.token);
+        console.log('NEGATIVE TEST VALUE: ' + this.state.mock_negative_test_obj.label);
+        //console.log('VALOR SELECIONADO: '+event.target.value)
+        try {
+            outjson = await capturePaymentWithInstallments(this.state.token, 
+                this.state.ba_final, 
+                this.state.installmentsFullData, data.installments, this.state.mock_negative_test_obj);
+            console.log('TERMINOU CHAMADA DE CAPTURA WITH INSTALLMENTS');
+
+            //this.state.installments = this.collectInstallmentsData(outjson);
 
             this.setState({
                 //msg: JSON.stringify(outjson),
@@ -267,7 +329,7 @@ class ReferenceInstallments extends Component {
     //######################################################################################################
     render = () => {
         let dynamicButton;
-        let dynamicDropbox;
+        let singleForm;
 
         
 
@@ -276,14 +338,7 @@ class ReferenceInstallments extends Component {
             hasBAToken={this.hasBAToken}
             onClick={this.handleClickApprovalRedirect} />;
 
-        if (this.state.calc_fin_invoked) {
-            dynamicDropbox = <Dropdown
-                options={this.state.installments}
-                //onChange={this._onSelect}
-                value={defaultOption}
-                placeholder="Select an option" />
-        }
-        
+              
 
         if (this.state.hasBAToken) {
             this.hasBAFinal = false;
@@ -300,12 +355,35 @@ class ReferenceInstallments extends Component {
                 onClick={this.handleSubmitCheckCalculatedFinancing} />;
         }
 
+        if (this.state.calc_fin_invoked) {
+            singleForm = <FormSingle
+                buttonText='Pay with installments'
+                onSubmit={this.handleSubmitCapturePaymentInstallments}
+            />
+        }
 
         return (
-            <div id="dropDownWrapper" align="center" >
-                <Form
-                    onSubmit={this.handleSubmit}>
-                </Form>
+            <div id="dropDownWrapper">                
+                <table  width="100%"  border="2"  bordercolor="green" >
+                    <tr>
+                        <th>Request Token</th>
+                        <th>Select Negative Testing</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <Form
+                                onSubmit={this.handleSubmit}>
+                            </Form>
+                        </th>
+                        <th>
+                            <Dropdown
+                                onClick={this.handleSubmitSelectNegativeDropDown}>
+                            </Dropdown>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </table>
                 <br />
 
                 <hr />
@@ -320,7 +398,7 @@ class ReferenceInstallments extends Component {
                 /* msg={this.state.msg} */>
                 </FormCheckout>
                 <div id="dropDownWrapper">
-                {dynamicDropbox}
+                {singleForm}
                 {dynamicButton}
                 </div>
 
