@@ -4,7 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import querystring from 'querystring';
 
 const PAYPAL_SANDBOX_API = 'https://api.sandbox.paypal.com';
-const PAYPAL_PROD_API = 'https://api.sandbox.paypal.com';
+const PAYPAL_PROD_API = 'https://api.paypal.com';
 const GET_KEY = '/v1/oauth2/token';
 const CREATE_PAYMENT = '/v1/payments/payment';
 const EXECUTE_PAYMENT = '/execute/';
@@ -12,13 +12,141 @@ const CREATE_BA = '/v1/billing-agreements/';
 const CREATE_BA_TOKEN = CREATE_BA + 'agreement-tokens';
 const CREATE_BA_ID = '/agreements';
 const CALCULATED_FINANCING = '/v1/credit/calculated-financing-options';
+const CONSUMER_REFERRAL = '/v1/customer/consumer-referrals';
 
 
+
+export async function consumerReferral(toke, data) {
+    /* console.log('invoking createToken: ' + data.clientID);
+    console.log('invoking createToken secret: ' + data.secret);
+ */
+    const response = await fetch(PAYPAL_SANDBOX_API + CONSUMER_REFERRAL, {
+        method: 'POST',
+        //mode: 'CORS',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Accept-Language':'en_US', 
+            'Content-Type': 'application/x-www-form-urlencoded',           
+            'Authorization':'Bearer ' + tokens
+          }),
+        body: "{\"person_details\":{"+ 
+            "\"names\":["+
+            "{"+
+            "\"given_name\":\""+data.givenName+"\","+  
+            "\"surname\":\""+data.surname+"\","+
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"phone_contacts\":[
+            {
+            \"phone\":{
+            \"country_code\":\"55\",
+            \"national_number\":\"119857263727\"
+            },
+            \"phone_type\":\"MOBILE\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"addresses\":[
+            {
+            \"address\":{
+            \"line1\":\"Av Paulista 1048\",
+            \"line2\":\"Jardim Paulista\",
+            \"city\":\"Sao Paulo\",
+            \"state\":\"SP\",
+            \"country_code\":\"BR\",
+            \"postal_code\":\"01317100\"
+            },
+            \"address_type\":\"HOME\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"date_of_birth\":{
+            \"date\":\"1989-11-12\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            },
+            \"origin_country_code\":\"BR\",
+            \"email_addresses\":[
+            {
+            \"email_address\":\"testela01@gmail.com\",
+            \"confirmed\":\"false\",
+            \"primary\":\"true\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"identity_documents\":[
+            {
+            \"type\":\"TAX_IDENTIFICATION_NUMBER\",
+            \"value\":\"40311810357\",
+            \"issuer_country_code\":\"BR\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"locale\":\"pt_BR\"
+            },
+            \"financial_instruments\":{
+            \"bank_accounts\":[
+            {
+            \"account_number\":\"097162629\",
+            \"account_type\":\"CHECKING\",
+            \"account_number_type\":\"BBAN\",
+            \"branch_code\": \"0001\",
+            \"routing_number_1\":\"735\",
+            \"country_code\":\"BR\",
+            \"currency_code\":\"BRL\",
+            \"bank_name\":\"Banco Itau\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ],
+            \"card_accounts\":[
+            {
+            \"account_number\":\"4485870039600228\",
+            \"expiry_month\":\"05\",
+            \"expiry_year\":\"2022\",
+            \"type\":\"VISA\",
+            \"country_code\":\"BR\",
+            \"confirmation\":{
+            \"status\":\"CONFIRMED\"
+            }
+            }
+            ]
+            },
+            \"paypal_account_properties\":{
+            \"account_country_code\":\"BR\"
+            }
+            }"
+   
+       
+    })
+
+    const finalJson = await response.json();
+    console.log('FINAL: '+ JSON.stringify(finalJson));
+    return finalJson
+
+}
+
+//####################################################################
+//####################################################################
+//####################################################################
 export async function createToken(data) {
     console.log('invoking createToken: ' + data.clientID);
     console.log('invoking createToken secret: ' + data.secret);
 
-    const response = await fetch(PAYPAL_PROD_API + GET_KEY, {
+    const response = await fetch(PAYPAL_SANDBOX_API + GET_KEY, {
         method: 'POST',
         //mode: 'CORS',
         headers: new Headers({

@@ -11,6 +11,7 @@ const Header = () => (
         <li><Link to='/ppp'>PayPal Plus</Link></li>
         <li><Link to='/refInst'>Reference with Installments</Link></li>
         <li><Link to='/refnvp'>Reference (Classic)</Link></li>
+        <li><Link to='/linkedAcc'>Linked Accounts (Edison)</Link></li>
       </ul>
     </nav>
   </header>
