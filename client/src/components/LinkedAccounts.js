@@ -232,11 +232,11 @@ handleSubmit = async (data) => {
 handleSubmitConsumerReferrals = async (data) => {
     console.log('Form value raw: ' + data.console);
     try {
-        var outjson = await consumerReferral(data);
+        var outjson = await consumerReferral(this.state.token, data);
         this.setState({
             msg: JSON.stringify(outjson),
             jsonResponseObj: outjson,
-            token: outjson.access_token
+            //token: outjson.access_token
 
         });
         console.log('TOKEN PREENCHIDO: '+this.state.token);
@@ -334,11 +334,11 @@ render = () => {
                 buttonText='Checkout'
                 onClick={this.handleClickExternalButton}>
             </ExternalButton>
-
+*/
             <ResponseBoard
                 authObj={this.state.jsonResponseObj}
                 msg={this.state.msg}>
-            </ResponseBoard> */}
+            </ResponseBoard> }
         </div>
     );
 } 

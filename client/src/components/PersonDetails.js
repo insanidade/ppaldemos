@@ -5,13 +5,20 @@ class PersonDetails extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            givenName: this.props.givenName,
+            /* givenName: this.props.givenName,
             surname: this.props.surname,
             status: this.props.status,
             phoneCountryCode: this.props.phoneCountryCode,
             phoneNationalNumber: this.props.phoneNationalNumber,
             phoneType: this.props.phoneType,
-            phoneConfirmation: this.props.phoneConfirmation,
+            phoneConfirmation: this.props.phoneConfirmation, */
+            givenName: "otavio",
+            surname: "augusto",
+            status: "CONFIRMED",
+            phoneCountryCode: "55",
+            phoneNationalNumber: "1155555555",
+            phoneType: "MOBILE",
+            phoneConfirmation: "CONFIRMED",
             addressLine1:"Avenida Brigadeiro Luis Antonio",
             addressLine2:"Jardim Paulista",
             addressCity:"São Paulo",
@@ -23,7 +30,8 @@ class PersonDetails extends Component {
             dateOfBirth:"1979-09-30",
             dateConfirmation:"CONFIRMED",
             originCountryCode:"BR",
-            emailAddress:this.props.emailAddress,
+            /* emailAddress:this.props.emailAddress, */
+            emailAddress:"otavio.augusto-buyer@gmail.com",
             emailConfirmed:"false",
             emailPrimary:"true",
             emailConfirmation:"CONFIRMED",

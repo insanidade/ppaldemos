@@ -16,7 +16,7 @@ const CONSUMER_REFERRAL = '/v1/customer/consumer-referrals';
 
 
 
-export async function consumerReferral(toke, data) {
+export async function consumerReferral(token, data) {
     /* console.log('invoking createToken: ' + data.clientID);
     console.log('invoking createToken secret: ' + data.secret);
  */
@@ -26,115 +26,115 @@ export async function consumerReferral(toke, data) {
         headers: new Headers({
             'Accept': 'application/json',
             'Accept-Language':'en_US', 
-            'Content-Type': 'application/x-www-form-urlencoded',           
-            'Authorization':'Bearer ' + tokens
+            'Content-Type': 'application/json',           
+            'Authorization':'Bearer ' + token
           }),
         body: "{\"person_details\":{"+ 
             "\"names\":["+
             "{"+
             "\"given_name\":\""+data.givenName+"\","+  
             "\"surname\":\""+data.surname+"\","+
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"phone_contacts\":[
-            {
-            \"phone\":{
-            \"country_code\":\"55\",
-            \"national_number\":\"119857263727\"
-            },
-            \"phone_type\":\"MOBILE\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"addresses\":[
-            {
-            \"address\":{
-            \"line1\":\"Av Paulista 1048\",
-            \"line2\":\"Jardim Paulista\",
-            \"city\":\"Sao Paulo\",
-            \"state\":\"SP\",
-            \"country_code\":\"BR\",
-            \"postal_code\":\"01317100\"
-            },
-            \"address_type\":\"HOME\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"date_of_birth\":{
-            \"date\":\"1989-11-12\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            },
-            \"origin_country_code\":\"BR\",
-            \"email_addresses\":[
-            {
-            \"email_address\":\"testela01@gmail.com\",
-            \"confirmed\":\"false\",
-            \"primary\":\"true\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"identity_documents\":[
-            {
-            \"type\":\"TAX_IDENTIFICATION_NUMBER\",
-            \"value\":\"40311810357\",
-            \"issuer_country_code\":\"BR\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"locale\":\"pt_BR\"
-            },
-            \"financial_instruments\":{
-            \"bank_accounts\":[
-            {
-            \"account_number\":\"097162629\",
-            \"account_type\":\"CHECKING\",
-            \"account_number_type\":\"BBAN\",
-            \"branch_code\": \"0001\",
-            \"routing_number_1\":\"735\",
-            \"country_code\":\"BR\",
-            \"currency_code\":\"BRL\",
-            \"bank_name\":\"Banco Itau\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ],
-            \"card_accounts\":[
-            {
-            \"account_number\":\"4485870039600228\",
-            \"expiry_month\":\"05\",
-            \"expiry_year\":\"2022\",
-            \"type\":\"VISA\",
-            \"country_code\":\"BR\",
-            \"confirmation\":{
-            \"status\":\"CONFIRMED\"
-            }
-            }
-            ]
-            },
-            \"paypal_account_properties\":{
-            \"account_country_code\":\"BR\"
-            }
-            }"
+            "\"confirmation\":{"+
+            "\"status\":\""+data.status+"\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"phone_contacts\":["+
+            "{"+
+            "\"phone\":{"+
+            "\"country_code\":\""+data.phoneCountryCode+"\","+
+            "\"national_number\":\""+data.phoneNationalNumber+"\""+
+            "},"+
+            "\"phone_type\":\""+data.phoneType+"\","+
+            "\"confirmation\":{"+
+            "\"status\":\""+data.phoneConfirmation+"\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"addresses\":["+
+            "{"+
+            "\"address\":{"+
+            "\"line1\":\""+data.addressLine1+"\","+
+            "\"line2\":\""+data.addressLine2+"\","+
+            "\"city\":\""+data.addressCity+"\","+
+            "\"state\":\""+data.addressState+"\","+
+            "\"country_code\":\""+data.addressCountryCode+"\","+
+            "\"postal_code\":\""+data.addressPostalCode+"\""+
+            "},"+
+            "\"address_type\":\""+data.addressType+"\","+
+            "\"confirmation\":{"+
+            "\"status\":\""+data.addressConfirmation+"\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"date_of_birth\":{"+
+            "\"date\":\""+data.dateOfBirth+"\","+
+            "\"confirmation\":{"+
+            "\"status\":\""+data.dateConfirmation+"\""+
+            "}"+
+            "},"+
+            "\"origin_country_code\":\""+data.originCountryCode+"\","+
+            "\"email_addresses\":["+
+            "{"+
+            "\"email_address\":\""+data.emailAddress+"\","+
+            "\"confirmed\":\""+data.emailConfirmed+"\","+
+            "\"primary\":\""+data.emailPrimary+"\","+
+            "\"confirmation\":{"+
+            "\"status\":\""+data.emailConfirmation+"\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"identity_documents\":["+
+            "{"+
+            "\"type\":\""+data.identityType+"\","+
+            "\"value\":\""+data.identityValue+"\","+
+            "\"issuer_country_code\":\""+data.identityIssuerCountryCode+"\","+
+            "\"confirmation\":{"+
+            "\"status\":\""+data.identityConfirmation+"\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"locale\":\"pt_BR\""+
+            "},"+
+            "\"financial_instruments\":{"+
+            "\"bank_accounts\":["+
+            "{"+
+            "\"account_number\":\"097162629\","+
+            "\"account_type\":\"CHECKING\","+
+            "\"account_number_type\":\"BBAN\","+
+            "\"branch_code\": \"0001\","+
+            "\"routing_number_1\":\"735\","+
+            "\"country_code\":\"BR\","+
+            "\"currency_code\":\"BRL\","+
+            "\"bank_name\":\"Banco Itau\","+
+            "\"confirmation\":{"+
+            "\"status\":\"CONFIRMED\""+
+            "}"+
+            "}"+
+            "],"+
+            "\"card_accounts\":["+
+            "{"+
+            "\"account_number\":\"4485870039600228\","+
+            "\"expiry_month\":\"05\","+
+            "\"expiry_year\":\"2022\","+
+            "\"type\":\"VISA\","+
+            "\"country_code\":\"BR\","+
+            "\"confirmation\":{"+
+            "\"status\":\"CONFIRMED\""+
+            "}"+
+            "}"+
+            "]"+
+            "},"+
+            "\"paypal_account_properties\":{"+
+            "\"account_country_code\":\"BR\""+
+            "}"+
+            "}"
    
        
     })
 
     const finalJson = await response.json();
-    console.log('FINAL: '+ JSON.stringify(finalJson));
+    console.log('FINAL CONSUMER REFERRAL: '+ JSON.stringify(finalJson));
     return finalJson
 
 }
