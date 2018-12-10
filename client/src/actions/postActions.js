@@ -13,6 +13,7 @@ const CREATE_BA_TOKEN = CREATE_BA + 'agreement-tokens';
 const CREATE_BA_ID = '/agreements';
 const CALCULATED_FINANCING = '/v1/credit/calculated-financing-options';
 const CONSUMER_REFERRAL = '/v1/customer/consumer-referrals';
+const USER_INFO = '/v1/oauth2/token/userinfo?schema=openidconnect';
 
 
 
@@ -156,6 +157,63 @@ export async function createToken(data) {
             'Authorization':'Basic ' + CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data.clientID+":"+data.secret))
           }),
         body: 'grant_type=client_credentials'
+   
+       
+    })
+
+    const finalJson = await response.json();
+    console.log('FINAL: '+ JSON.stringify(finalJson));
+    return finalJson
+
+}
+
+//####################################################################
+//####################################################################
+//####################################################################
+export async function getUserIdentity(token) {
+    console.log('ACCESS TOKEN GET USER IDENTITY : ' + token);
+    
+
+    const response = await fetch(PAYPAL_SANDBOX_API + USER_INFO, {
+        method: 'POST',
+        //mode: 'CORS',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Accept-Language':'en_US', 
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'PayPal-Partner-Attribution-Id': 'Provided_by_PayPal',           
+            'Authorization':'Bearer ' + token
+          })
+          /* ,
+        body: 'grant_type=authorization_code&response_type=token&redirect_uri='+ 'http://localhost:3000/linkedAcc' + '&code=' +code */
+   
+       
+    })
+
+    const finalJson = await response.json();
+    console.log('FINAL: '+ JSON.stringify(finalJson));
+    return finalJson
+
+}
+//####################################################################
+//####################################################################
+//####################################################################
+export async function createTokenPostOnboarding(data ,code) {
+    console.log('invoking createToken client id: ' + data.clientID);
+    console.log('invoking createToken secret: ' + data.secret);
+    console.log('invoking createToken code: ' + code);
+
+    const response = await fetch(PAYPAL_SANDBOX_API + GET_KEY, {
+        method: 'POST',
+        //mode: 'CORS',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Accept-Language':'en_US', 
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'PayPal-Partner-Attribution-Id': 'Provided_by_PayPal',           
+            'Authorization':'Basic ' + CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data.clientID+":"+data.secret))
+          }),
+        body: 'grant_type=authorization_code&response_type=token&redirect_uri='+ 'http://localhost:3000/linkedAcc' + '&code=' +code
    
        
     })

@@ -61,7 +61,7 @@ class Form extends Component {
                             <button type="submit"
                                 id="create_key_submit"
                                 className="btn-default btn">
-                                Request Token
+                                {this.props.buttonText}
                             </button>
                         </div>
                     </div>
