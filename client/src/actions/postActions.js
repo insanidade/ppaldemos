@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import * as CryptoJS from 'crypto-js';
 import querystring from 'querystring';
 
+const FAKE_ENDPOINT = 'https://webhook.site/a998c0f2-1a3f-4697-b7f3-2a2bd350a51b';
 const PAYPAL_SANDBOX_API = 'https://api.sandbox.paypal.com';
 const PAYPAL_PROD_API = 'https://api.paypal.com';
 const GET_KEY = '/v1/oauth2/token';
@@ -230,15 +231,15 @@ export async function createTokenPostOnboarding(data ,code) {
 
 export async function createPayment(token, billingAgreementData) {
     console.log('invoking createPayment com token: ' + token);
-    const response = await fetch(PAYPAL_SANDBOX_API + CREATE_PAYMENT, {
+    const response = await fetch(PAYPAL_SANDBOX_API + CREATE_PAYMENT/*FAKE_ENDPOINT*/, {
         method: 'POST',
         //mode: 'CORS',
         headers: new Headers({
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             //'Accept-Language':'en_US', 
             //'Content-Type': 'application/x-www-form-urlencoded',
-            //'PayPal-Mock-Response':'{\"mock_application_codes\": \"MALFORMED_REQUEST\"}',           
-            'Authorization':'Bearer ' + token
+            //"PayPal-Mock-Response":"{\"mock_application_codes: INSTRUMENT_DECLINED\"}",           
+            "Authorization":"Bearer " + token
           }),
         body: "{\"intent\": \"sale\" ,"+
                 "\"payer\": {"+

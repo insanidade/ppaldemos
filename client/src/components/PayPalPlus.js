@@ -245,6 +245,8 @@ try {
     "payerTaxId": "03199060439",
     "payerTaxIdType": "BR_CPF",
     "language": "pt_BR",
+    //"merchantInstallmentSelection":4,
+    //"merchantInstallmentSelectionOptional":false,
     "country": "BR",
     "rememberedCards": "customerRememberedCardHash",         
     });
@@ -283,7 +285,8 @@ render = () => {
     return (
         <div align="center">
             <Form
-                onSubmit={this.handleSubmit}>
+                onSubmit={this.handleSubmit}
+                buttonText={"Request Token"}>
             </Form>
             <br />
 

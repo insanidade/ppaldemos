@@ -372,7 +372,8 @@ class ReferenceInstallments extends Component {
                     <tr>
                         <th>
                             <Form
-                                onSubmit={this.handleSubmit}>
+                                onSubmit={this.handleSubmit}
+                                buttonText={"Request Token"}>
                             </Form>
                         </th>
                         <th>

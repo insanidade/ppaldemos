@@ -9,7 +9,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
-    "react-select": "^2.1.2"
+    "react-select": "^2.4.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"
