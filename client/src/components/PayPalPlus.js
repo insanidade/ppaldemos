@@ -67,13 +67,13 @@ class PayPalPlus extends Component{
                     break;
 
                 case "CARD_ATTEMPT_INVALID":
-                    alert("Ocorreu um erro inesperado, por favor tente novamente. (" + ppplusError + ")"); //pt_BR
+                    alert("Ocorreu um erro inesperado. Por favor, tente novamente. (" + ppplusError + ")"); //pt_BR
                     //03 maximum payment attempts with error, inform the customer to try again; generate a new approval_url and reload the iFrame.
                     // <<Insert Code Here>>
                     break;
 
                 case "INVALID_OR_EXPIRED_TOKEN":
-                    alert("A sua sessão expirou, por favor tente novamente. (" + ppplusError + ")"); //pt_BR
+                    alert("A sua sessão expirou. Por favor, tente novamente. (" + ppplusError + ")"); //pt_BR
                     //User session is expired, inform the customer to try again; generate a new approval_url and reload the iFrame.
                     // <<Insert Code Here>>
                     break;

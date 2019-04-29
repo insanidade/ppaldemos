@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { properties } from '../properties.js';
 
 class Form extends Component {
     
     constructor (props) {
         super(props);
         this.state = {
-            clientID: this.props.clientid,// || 'AYMGJl2GTe2fO0fQd4PyEHmtD6o7GnXSUaH7GFhl6GQDy2HRZ42aDhgrkcx_b_E5bTL2h19jQMCGJXJF',
-            secret: this.props.secret //|| 'EPV1gUHgDGtpKNROYZ_2evOxSHANbI-PVnCQG_CeJB49AzcVgTfpnWYLa2mtTHcBuXKs0_awCvmULBZm'
+            clientID: properties.client_id,// || 'AYMGJl2GTe2fO0fQd4PyEHmtD6o7GnXSUaH7GFhl6GQDy2HRZ42aDhgrkcx_b_E5bTL2h19jQMCGJXJF',
+            secret: properties.secret //|| 'EPV1gUHgDGtpKNROYZ_2evOxSHANbI-PVnCQG_CeJB49AzcVgTfpnWYLa2mtTHcBuXKs0_awCvmULBZm'
         }
     }
 
@@ -20,6 +21,9 @@ class Form extends Component {
         this.setState({
             secret: e.target.value
         });
+        //console.log(properties.content);
+        /* console.log(properties.client_id);
+        console.log(properties.secret); */
     }
     handleSubmit = (e) => {
         e.preventDefault();
