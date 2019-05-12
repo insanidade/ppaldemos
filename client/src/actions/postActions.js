@@ -236,7 +236,7 @@ export async function createPayment(token, billingAgreementData) {
         //mode: 'CORS',
         headers: new Headers({
             "Content-Type": "application/json",
-            //'Accept-Language':'en_US', 
+            'Accept-Language':'en_US', 
             //'Content-Type': 'application/x-www-form-urlencoded',
             //"PayPal-Mock-Response":"{\"mock_application_codes: INSTRUMENT_DECLINED\"}",           
             "Authorization":"Bearer " + token
@@ -251,7 +251,7 @@ export async function createPayment(token, billingAgreementData) {
                 "},"+
                 "\"transactions\":[{"+
                                 "\"amount\": {"+
-                                            "\"currency\": \"BRL\","+
+                                            "\"currency\": \"USD\","+
                                             "\"total\": \"120.00\","+
                                             "\"details\": {"+
                                                         "\"shipping\": \"20.00\","+
@@ -259,18 +259,19 @@ export async function createPayment(token, billingAgreementData) {
                                                         "}"+
                                             "},"+
                                             "\"description\": \"Order #942342 from storeURL\","+
+                                            "\"custom\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjI0ZTg1NC00MzkwLTQ1ZWYtYjQ0NC03OTBjMWM2MWI3MTgiLCJpc3MiOiJhcHBsaWNhdGlvbkF1dGgiLCJleHAiOjE1ODg3MDQzODYsImlhdCI6MTU1NzE2ODM4Nn0=.kzn66lejAiDYMMhf0ggpwiGzqJ/6kYsoreCdRCHFti0=\","+
                                             "\"payment_options\": {"+
                                                                 "\"allowed_payment_method\": \"IMMEDIATE_PAY\""+
                                                                 "},"+
                                             "\"item_list\": {"+
                                                             "\"shipping_address\": {"+
                                                                                 "\"recipient_name\": \"Otávio Augusto\","+
-                                                                                "\"line1\": \"Avenida dos Tarumãs, 32 – apt 123\","+
-                                                                                "\"line2\": \"Bairro\","+
-                                                                                "\"city\": \"São Paulo\","+
-                                                                                "\"country_code\": \"BR\","+
-                                                                                "\"postal_code\": \"01402-000\","+
-                                                                                "\"state\": \"SP\","+
+                                                                                "\"line1\": \"3355 S\","+
+                                                                                "\"line2\": \"Las Vegas Blvd\","+
+                                                                                "\"city\": \"Las Vegas\","+
+                                                                                "\"country_code\": \"US\","+
+                                                                                "\"postal_code\": \"89109\","+
+                                                                                "\"state\": \"NV\","+
                                                                                 "\"phone\": \"(66)9371-5868\""+
                                                                                 "},"+
                                                             "\"items\": [{"+
@@ -279,7 +280,7 @@ export async function createPayment(token, billingAgreementData) {
                                                                         "\"quantity\": \"2\","+
                                                                         "\"price\": \"50.00\","+
                                                                         "\"sku\": \"product_id_99\","+
-                                                                        "\"currency\": \"BRL\""+
+                                                                        "\"currency\": \"USD\""+
                                                                         "}]"+
                                                             "}"+
                                     "}],"+
@@ -500,21 +501,27 @@ export async function executePayment(fullJson, token, url) {
 
 export async function createBAToken(token) {
     console.log('invoking createBAToken');
-    //var payer_id = fullJson.result.payer.payer_info.payer_id;
-    //var createJson = "{\"intent\": \"sale\" ,\"payer\": {\"payment_method\": \"paypal\"},application_context: {brand_name: \"<<Store Name>>\",shipping_preference: \"SET_PROVIDED_ADDRESS\"},transactions: [    {        amount: {            currency: \"BRL\",              total: \"30.00\",              details: {        shipping: \"10.00\",                subtotal: \"20.00\"              }            },    \"description\": \"Order #942342 from storeURL\",    \"payment_options\": {    \"allowed_payment_method\": \"IMMEDIATE_PAY\"            },    \"invoice_number\": \"942342\",    \"item_list\": {    \"shipping_address\": {    \"recipient_name\": \"Thiago Gustavo Campos\",    \"line1\": \"Avenida dos Tarumãs, 32 – apt 123\",    \"line2\": \"Bairro\",    \"city\": \" Sâo Paulo\",  \"country_code\": \"BR\",    \"postal_code\": \" 78556224\",    \"state\": \"SP\",    \"phone\": \"(66)9371-5868\"              },    \"items\": [                {        \"name\": \"Product\",        \"description\": \"Product description\",        \"quantity\": \"2\",        \"price\": \"10.00\",        \"sku\": \"product_id_99\",        \"currency\": \"BRL\"                }]            }          }        ],\"redirect_urls\": {\"return_url\": \"http://www.<<Store URL>>.com\",\"cancel_url\": \"http://www.<<Store URL>>.com\"        }      }";
+    
 
     const response = await fetch(PAYPAL_SANDBOX_API + CREATE_BA_TOKEN, {
         method: 'POST',        
         headers: new Headers({
             'Content-Type': 'application/json',
             'Authorization':'Bearer ' + token
-          }),
+          }),          
         body: "{"+
-                "\"description\":" + "\"Descrição do termo de odefranca\" ,"+
+                "\"merchant_custom_data\" : \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjI0ZTg1NC00MzkwLTQ1ZWYtYjQ0NC03OTBjMWM2MWI3MTgiLCJpc3MiOiJhcHBsaWNhdGlvbkF1dGgiLCJleHAiOjE1ODg3MDQzODYsImlhdCI6MTU1NzE2ODM4Nn0=.kzn66lejAiDYMMhf0ggpwiGzqJ/6kYsoreCdRCHFti0=\","+               
+
+                "\"description\":" + "\"Descrição do termo de odefranca - The date "+
+                
+                "is date and time in the execute agreement response, it shows the converted date and time in the UTC time zone. So, the internal 2017-01-02T00:00:00 start date and time becomes 2017-01-01T23:00:00 externally.\""+
+       
+                " ,"+
                 "\"payer\" : {"+
                     "\"payment_method\": \"PAYPAL\""+
                 "},"+
                 "\"plan\": {"+
+                    
                     "\"type\": \"MERCHANT_INITIATED_BILLING\","+
                     "\"merchant_preferences\": {"+
                             "\"cancel_url\": \"http://localhost:3000/refInstallCancel\","+
@@ -552,7 +559,10 @@ export async function createFinalBA(token, ba_token) {
             'Content-Type': 'application/json',
             'Authorization':'Bearer ' + token
           }),
-        body: "{\"agreement_token\":\""+ ba_token + "\"}"
+        body: "{"+
+                "\"agreement_token\":\""+ ba_token + "\"," +
+                "\"custom\" : \""+token+ "\""+
+            "}"
        
     }) 
 
