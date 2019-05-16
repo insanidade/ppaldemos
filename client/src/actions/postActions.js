@@ -236,7 +236,7 @@ export async function createPayment(token, billingAgreementData) {
         //mode: 'CORS',
         headers: new Headers({
             "Content-Type": "application/json",
-            'Accept-Language':'en_US', 
+            //'Accept-Language':'en_US', 
             //'Content-Type': 'application/x-www-form-urlencoded',
             //"PayPal-Mock-Response":"{\"mock_application_codes: INSTRUMENT_DECLINED\"}",           
             "Authorization":"Bearer " + token
@@ -251,13 +251,14 @@ export async function createPayment(token, billingAgreementData) {
                 "},"+
                 "\"transactions\":[{"+
                                 "\"amount\": {"+
-                                            "\"currency\": \"USD\","+
+                                            "\"currency\": \"BRL\","+
                                             "\"total\": \"120.00\","+
                                             "\"details\": {"+
                                                         "\"shipping\": \"20.00\","+
                                                         "\"subtotal\": \"100.00\""+
                                                         "}"+
                                             "},"+
+                                            "\"invoice_number\": \"" +((Math.random() * 100000) + 1)+ "\","+
                                             "\"description\": \"Order #942342 from storeURL\","+
                                             "\"custom\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjI0ZTg1NC00MzkwLTQ1ZWYtYjQ0NC03OTBjMWM2MWI3MTgiLCJpc3MiOiJhcHBsaWNhdGlvbkF1dGgiLCJleHAiOjE1ODg3MDQzODYsImlhdCI6MTU1NzE2ODM4Nn0=.kzn66lejAiDYMMhf0ggpwiGzqJ/6kYsoreCdRCHFti0=\","+
                                             "\"payment_options\": {"+
@@ -266,12 +267,12 @@ export async function createPayment(token, billingAgreementData) {
                                             "\"item_list\": {"+
                                                             "\"shipping_address\": {"+
                                                                                 "\"recipient_name\": \"Otávio Augusto\","+
-                                                                                "\"line1\": \"3355 S\","+
-                                                                                "\"line2\": \"Las Vegas Blvd\","+
-                                                                                "\"city\": \"Las Vegas\","+
-                                                                                "\"country_code\": \"US\","+
-                                                                                "\"postal_code\": \"89109\","+
-                                                                                "\"state\": \"NV\","+
+                                                                                "\"line1\": \"Rua S\","+
+                                                                                "\"line2\": \"Bairo X\","+
+                                                                                "\"city\": \"São Paulo\","+
+                                                                                "\"country_code\": \"BR\","+
+                                                                                "\"postal_code\": \"01402000\","+
+                                                                                "\"state\": \"SP\","+
                                                                                 "\"phone\": \"(66)9371-5868\""+
                                                                                 "},"+
                                                             "\"items\": [{"+
@@ -280,7 +281,7 @@ export async function createPayment(token, billingAgreementData) {
                                                                         "\"quantity\": \"2\","+
                                                                         "\"price\": \"50.00\","+
                                                                         "\"sku\": \"product_id_99\","+
-                                                                        "\"currency\": \"USD\""+
+                                                                        "\"currency\": \"BRL\""+
                                                                         "}]"+
                                                             "}"+
                                     "}],"+
