@@ -192,10 +192,10 @@ componentDidMount() {
 mySetJson = async (inputJson) => {
     this.setState({jsonResponseObj: inputJson});
     console.log('##################  O EVENTO: ##########'+ this.state.jsonResponseObj);
-    var outjson = await executePayment(this.state.jsonResponseObj, this.state.token, this.state.executeUrl);
-    this.setState({
-        jsonResponseObj: outjson
-    });
+    //var outjson = await executePayment(this.state.jsonResponseObj, this.state.token, this.state.executeUrl);
+    //this.setState({
+        //jsonResponseObj: outjson
+    //});
 }
 
 
@@ -253,7 +253,18 @@ try {
     //"merchantInstallmentSelectionOptional":false,
     "country": "BR",
     //"country": "US",
-    "rememberedCards": "customerRememberedCardHash",         
+    "rememberedCards": "customerRememberedCardHash", 
+    onError: (err) => {
+        console.log('CAPTUREI UM ERRO COM O onError: ', err);
+    },
+    onContinue: (rememberedCardsToken, payerId, token, term) => {
+        console.log('CAPTUREI rememberedCardsToken COM O onContinue: ', rememberedCardsToken);
+        console.log('CAPTUREI payerId COM O onContinue: ', payerId);
+        console.log('CAPTUREI EC token COM O onContinue: ', token);
+        console.log('CAPTUREI term COM O onContinue: ', term);        
+       
+        this.capture(payerId);
+    }        
     });
     this.setState({pppRef: ppp});        
 
@@ -270,6 +281,20 @@ try {
 //######################################################################################################
 //######################################################################################################
 
+capture = async (payerId) => {
+    //this.setState({jsonResponseObj: inputJson});
+    console.log('##################  CAPTURAR COM O PAYER ID: ########## '+ payerId);
+    var outjson = await executePayment(payerId, this.state.token, this.state.executeUrl);
+    this.setState({
+        jsonResponseObj: outjson
+    });
+}
+
+
+//######################################################################################################
+//######################################################################################################
+//######################################################################################################
+//######################################################################################################
 handleClickExternalButton = async (data) => {
 console.log('Form value raw: ' + data);
 try {
