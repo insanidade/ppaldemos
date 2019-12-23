@@ -80,7 +80,7 @@ class FormCheckout extends Component {
                 </table>
                 
                 <hr />
-                <div id="ppplusDiv"> </div>
+                <div id={this.props.divName}> </div>
                 <hr />
             </form>
         );

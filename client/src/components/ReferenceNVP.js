@@ -29,7 +29,8 @@ class ReferenceNVP extends Component {
             transactionID: '',
             paymentStatus: '',
             paymentType: '',
-            mock_negative_test_obj: {}
+            mock_negative_test_obj: {},
+            returnUrl: 'http://localhost:3000/refnvp'
         }
 
     }
@@ -142,7 +143,7 @@ class ReferenceNVP extends Component {
         console.log('MOCK VALUE: '+this.state.mock_negative_test_obj.value);
 
         try {
-            outnvp = await setEC(this.state.mock_negative_test_obj.label, 
+            outnvp = await setEC(this.state.returnUrl, this.state.mock_negative_test_obj.label, 
                 this.state.mock_negative_test_obj.value);
 
             console.log('CHAMOU setExpressCheckout');

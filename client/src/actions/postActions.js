@@ -627,8 +627,8 @@ export async function createBANvp(token) {
 //####################################################################
 //####################################################################
 //####################################################################
-export async function setEC(erroCodeLabel, errorCodeVAlue) {
-    const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue);
+export async function setEC(returnUrl,erroCodeLabel, errorCodeVAlue) {
+    const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue+'&returnUrl='+returnUrl);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 

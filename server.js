@@ -153,6 +153,36 @@ app.get('/api/setEC', (req, res) => {
         "returnUrl": "http://localhost:3000/refnvp"
     });
 
+//#############################################################################
+//#############################################################################
+//#############################################################################
+app.get('/api/setEC', (req, res) => {
+    console.log("SERVIDOR: CHAMADA REMOTA SetExpressCheckout");
+
+    console.log("SERVIDOR: LABEL =>" +req.query.errMockLabel);
+    console.log("SERVIDOR: VALUE =>" +req.query.errMockValue);
+
+    var querystring = require('querystring');    
+
+    var postData = querystring.stringify({
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "N4YDYTL8972DZW6G",
+        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "METHOD": "SetExpressCheckout",
+        "VERSION":"204",
+        "MAXAMT": req.query.errMockValue,
+        "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",    //#Payment authorization
+        "PAYMENTREQUEST_0_AMT": req.query.errMockValue,//    #The amount authorized
+        //"AMT": req.query.errMockValue,//    #The amount authorized
+        "PAYMENTREQUEST_0_CURRENCYCODE": "BRL",//    #The currency, e.g. US dollars
+        "L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
+        "L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",// #The description of the billing agreement
+        "cancelUrl": "https://example.com/cancel", //#For use if the consumer decides not to proceed with payment
+        "returnUrl": req.query.returnUrl
+    });
+
+
+
     console.log(postData);
     
     var options = {

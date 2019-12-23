@@ -329,7 +329,8 @@ render = () => {
                 buttonText='Pague com PayPal'
                 onSubmit={this.handleSubmitCreate}
                 authObj={this.state.jsonResponseObj}
-                msg={this.state.msg}>
+                msg={this.state.msg}
+                divName='ppplusDiv'>
             </FormCheckout>
 
             <ExternalButton
