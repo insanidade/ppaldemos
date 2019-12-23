@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import PayPalPlus from './PayPalPlus';
+import ExpressCheckout from './ExpressCheckout'
 import ReferenceInstallments from './ReferenceInstallments';
 import ReferenceNVP from './ReferenceNVP';
 import LinkedAccounts from './LinkedAccounts'
@@ -15,6 +16,7 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
+      <Route path='/ec' component={ExpressCheckout}/>
       <Route path='/ppp' component={PayPalPlus}/>
       <Route path='/refInst' component={ReferenceInstallments}/>
       <Route path='/refnvp' component={ReferenceNVP}/>

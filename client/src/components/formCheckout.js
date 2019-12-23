@@ -62,20 +62,19 @@ class FormCheckout extends Component {
                         <th><img src={this.props.prodImage}  width="50" border="3" /></th>
                         <th>{this.props.prodPrice}</th>
                         <th>
-                        <div id="checkout">                    
-                    <div className="form-group">
-                        <div className="col-sm-2"></div>
-                        <div className="col-sm-10">
-                            <br />
-                            <button type="submit"
-                                id="create_key_submit"
-                                className="btn-default btn">
-                                {this.props.buttonText}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                            <div id="checkout">                    
+                                <div className="form-group">
+                                    <div className="col-sm-2"></div>
+                                    <div className="col-sm-10">
+                                        <br />
+                                        <button type="submit"
+                                            id="create_key_submit"
+                                            className="btn-default btn">
+                                            {this.props.buttonText}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </th>
                     </tr>
                 </table>
