@@ -25,8 +25,9 @@ class ExpressCheckout extends Component {
             msg: 'Response Board',
             token: '',
             returnUrl: 'http://localhost:3000/ec',
-            errorCodeLabel: '',
-            errorCodeValue:'',
+            errorCodeLabel: '10',
+            errorCodeValue:'10',
+            amt:'30.00',
             response:''
         }
 
@@ -40,8 +41,9 @@ class ExpressCheckout extends Component {
         console.log('invoking create payment');
         try {
             var returnUrl = this.state.returnUrl;
-            var erroCodeLabel = this.state.errorCodeLabel;
+            var errorCodeLabel = this.state.errorCodeLabel;
             var errorCodeValue = this.state.errorCodeValue;
+            var amt = this.state.amt;
 
             //console.log('URL QUE EU QUERO: ' + this.state.jsonResponseObj.links[1].href);
             var ppp = await window.paypal.Buttons({
@@ -55,13 +57,11 @@ class ExpressCheckout extends Component {
 
                 // Set up the transaction
                 createOrder: async function (data, actions) {
-                    //const outnvp;
                     console.log('vai chamar setExpressCheckout');
-                    /* try { */
-                    var outnvp = await setEC(returnUrl,10,10);
                     
-                    //const data = await res.json();
-                    //const dataOut = await res.text();
+                    var outnvp = await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
+                    
+                
                     console.log('CHAMOU setExpressCheckout: '+outnvp);
                     decodeURI(outnvp);
                     return  JSON.parse(outnvp).TOKEN;
@@ -73,9 +73,11 @@ class ExpressCheckout extends Component {
                     const ecDetails = await getECDEtails(data.orderID);
                     decodeURI(ecDetails);
                     const payerID = JSON.parse(ecDetails).PAYERID;
+                    const amt = JSON.parse(ecDetails).PAYMENTREQUEST_0_AMT
                     console.log('CHAMOU GET EXPRESS DETAILS PAYERID: '+payerID);
+                    console.log('CHAMOU GET EXPRESS DETAILS AMT: '+amt);
 
-                    var outnvp = await doEC(data.orderID, payerID);
+                    var outnvp = await doEC(data.orderID, payerID, amt);
                     console.log('CHAMOU DoExpressCheckoutPayment : '+outnvp);
                     decodeURI(outnvp);
                     

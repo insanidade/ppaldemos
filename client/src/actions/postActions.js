@@ -627,9 +627,9 @@ export async function createBANvp(token) {
 //####################################################################
 //####################################################################
 //####################################################################
-export async function setEC(returnUrl,erroCodeLabel, errorCodeVAlue) {
+export async function setEC(returnUrl,erroCodeLabel, errorCodeVAlue, amt) {
     console.log("CHAMANDO SETEC NO POSTACTIONS");
-    const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue+'&returnUrl='+returnUrl);
+    const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue+'&returnUrl='+returnUrl+'&amt='+amt);
     const body = await response.text();// .json();
     console.log("RESPOSTA SETEC NO POSTACTIONS: "+body);
     if (response.status !== 200) throw Error(body.message);
@@ -663,8 +663,8 @@ export async function getECDEtails(token) {
 //####################################################################
 //####################################################################
 //####################################################################
-export async function doEC(token, payerid) {
-    const response = await fetch('/api/doEC?token='+token+'&payerid='+payerid);
+export async function doEC(token, payerid, amt) {
+    const response = await fetch('/api/doEC?token='+token+'&payerid='+payerid+'&amt='+amt);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 

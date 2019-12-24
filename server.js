@@ -147,7 +147,7 @@ app.get('/api/setEC', (req, res) => {
         "VERSION":"204",
         "MAXAMT": req.query.errMockValue,
         "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",    //#Payment authorization
-        "PAYMENTREQUEST_0_AMT": 20.00,//    #The amount authorized
+        "PAYMENTREQUEST_0_AMT": req.query.amt,//    #The amount authorized
         //"AMT": req.query.errMockValue,//    #The amount authorized
         "PAYMENTREQUEST_0_CURRENCYCODE": "BRL",//    #The currency, e.g. US dollars
         //"L_BILLINGTYPE0": "MerchantInitiatedBilling",//    #The type of billing agreement
@@ -277,7 +277,7 @@ app.get('/api/doEC', (req, res) => {
         "TOKEN":req.query.token, 
         "PAYERID":req.query.payerid,
         "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",
-        "PAYMENTREQUEST_0_AMT": 20.00,
+        "PAYMENTREQUEST_0_AMT": req.query.amt,
         "PAYMENTREQUEST_0_CURRENCYCODE": "BRL"
     });
 
