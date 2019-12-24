@@ -628,8 +628,10 @@ export async function createBANvp(token) {
 //####################################################################
 //####################################################################
 export async function setEC(returnUrl,erroCodeLabel, errorCodeVAlue) {
+    console.log("CHAMANDO SETEC NO POSTACTIONS");
     const response = await fetch('/api/setEC?errMockLabel='+erroCodeLabel+'&errMockValue='+errorCodeVAlue+'&returnUrl='+returnUrl);
     const body = await response.text();// .json();
+    console.log("RESPOSTA SETEC NO POSTACTIONS: "+body);
     if (response.status !== 200) throw Error(body.message);
 
     console.log("MEU FRONTEND INFORMA!!!: " + body);

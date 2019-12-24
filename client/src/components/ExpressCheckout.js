@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Form from './form';
+import fetch from 'node-fetch';
 import ResponseBoard from './responseBoard';
 import { createToken } from '../actions/postActions';
 import FormCheckout from './formCheckout';
@@ -18,9 +19,13 @@ class ExpressCheckout extends Component {
             prodName: this.props.prodName,
             prodBrewery: this.props.prodBrewery,
             prodPrice: this.props.prodPrice,
-            jsonResponseObj:{},
+            uriResponseObj:{},
             msg: 'Response Board',
-            token: ''
+            token: '',
+            returnUrl: 'http://localhost:3000/ec',
+            errorCodeLabel: '',
+            errorCodeValue:'',
+            response:''
         }
 
     }   
@@ -32,6 +37,9 @@ class ExpressCheckout extends Component {
     handleSubmitCreate = async (data) => {
         console.log('invoking create payment');
         try {
+            var returnUrl = this.state.returnUrl;
+            var erroCodeLabel = this.state.errorCodeLabel;
+            var errorCodeValue = this.state.errorCodeValue;
 
             //console.log('URL QUE EU QUERO: ' + this.state.jsonResponseObj.links[1].href);
             var ppp = await window.paypal.Buttons({
@@ -45,13 +53,24 @@ class ExpressCheckout extends Component {
 
                 // Set up the transaction
                 createOrder: async function (data, actions) {
-                    var outnvp;
+                    //const outnvp;
                     console.log('vai chamar setExpressCheckout');
-                    try {
-                        return setEC(this.state.returnUrl, this.state.mock_negative_test_obj.label, 
-                            this.state.mock_negative_test_obj.value);
+                    /* try { */
+                    var outnvp = await setEC(returnUrl,10,10);
+                    
+                    //const data = await res.json();
+                    //const dataOut = await res.text();
+                    console.log('CHAMOU setExpressCheckout: '+outnvp);
+                    decodeURI(outnvp);
+                    return  JSON.parse(outnvp).TOKEN;
+                    
+
+                    
+                    console.log('CHAMOU setExpressCheckout - token: '+this.state.response);    
+                    //return res.token;
+
             
-                        console.log('CHAMOU setExpressCheckout');
+                    console.log('CHAMOU setExpressCheckout');
                         /* this.setState({
                             //msg: querystring.stringify(outnvp),
                             jsonResponseObj: decodeURI(outnvp),
@@ -61,12 +80,12 @@ class ExpressCheckout extends Component {
             
                         }); */
                         
-                    } catch (err) {
+                    /* } catch (err) {
                         console.log('ERROR!!')
                        /*  this.setState(
                             { msg: 'Request error: ' + err }
                         ); */
-                    }
+                    //}
 
 
 
@@ -82,6 +101,7 @@ class ExpressCheckout extends Component {
 
                 // Finalize the transaction
                 onApprove: async function (data, actions) {
+                    
                     const res = await fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
                         method: 'post'
                     });
@@ -149,13 +169,13 @@ class ExpressCheckout extends Component {
                     prodPrice='$20'
                     buttonText='Pague com PayPal'
                     onSubmit={this.handleSubmitCreate}
-                    authObj={this.state.jsonResponseObj}
+                    authObj={this.state.uriResponseObj}
                     msg={this.state.msg}
                     divName='paypal-button-container'>
                 </FormCheckout>
 
                 <ResponseBoard
-                    authObj={this.state.jsonResponseObj}
+                    authObj={this.state.uriResponseObj}
                     msg={this.state.msg}>
                 </ResponseBoard>
 
