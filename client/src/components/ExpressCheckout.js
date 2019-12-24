@@ -83,11 +83,7 @@ class ExpressCheckout extends Component {
                     
                     console.log("STATUS DOEC: "+JSON.parse(outnvp).PAYMENTINFO_0_PAYMENTSTATUS);
                         	 
-                    
-                    
-                    
-                    // Show a success message to the buyer
-                    //alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                
                 },
 
 
