@@ -10,6 +10,7 @@
     "create-react-class": "^15.6.3",
     "crypto-js": "^3.1.9-1",
     "curlrequest": "^1.0.1",
+    "mem": "^6.0.1",
     "node-fetch": "^2.2.0",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
