@@ -6,6 +6,8 @@ import { createToken } from '../actions/postActions';
 import FormCheckout from './formCheckout';
 import theImage from '../images/beer.jpeg';
 import { setEC } from '../actions/postActions';
+import { getECDEtails } from '../actions/postActions';
+import { doEC } from '../actions/postActions';
 import Script from 'react-load-script';
 //import PAYPAL from 'https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js';
 
@@ -63,51 +65,27 @@ class ExpressCheckout extends Component {
                     console.log('CHAMOU setExpressCheckout: '+outnvp);
                     decodeURI(outnvp);
                     return  JSON.parse(outnvp).TOKEN;
-                    
-
-                    
-                    console.log('CHAMOU setExpressCheckout - token: '+this.state.response);    
-                    //return res.token;
-
-            
-                    console.log('CHAMOU setExpressCheckout');
-                        /* this.setState({
-                            //msg: querystring.stringify(outnvp),
-                            jsonResponseObj: decodeURI(outnvp),
-                            //response: JSON.parse(outnvp).TOKEN,
-                            token: JSON.parse(outnvp).TOKEN
-                            //token: outnvp.access_token
-            
-                        }); */
-                        
-                    /* } catch (err) {
-                        console.log('ERROR!!')
-                       /*  this.setState(
-                            { msg: 'Request error: ' + err }
-                        ); */
-                    //}
-
-
-
-                    /* const res = await fetch('/demo/checkout/api/paypal/order/create/', {
-                        method: 'post'
-                    });
-                    const dataHandler = await res.json();
-                    return dataHandler.orderID; */
-
-
-
                 },
 
                 // Finalize the transaction
                 onApprove: async function (data, actions) {
+                    console.log('CHAMAR ONAPPROVE: '+data.orderID);
+                    const ecDetails = await getECDEtails(data.orderID);
+                    decodeURI(ecDetails);
+                    const payerID = JSON.parse(ecDetails).PAYERID;
+                    console.log('CHAMOU GET EXPRESS DETAILS PAYERID: '+payerID);
+
+                    var outnvp = await doEC(data.orderID, payerID);
+                    console.log('CHAMOU DoExpressCheckoutPayment : '+outnvp);
+                    decodeURI(outnvp);
                     
-                    const res = await fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
-                        method: 'post'
-                    });
-                    const details = await res.json();
+                    console.log("STATUS DOEC: "+JSON.parse(outnvp).PAYMENTINFO_0_PAYMENTSTATUS);
+                        	 
+                    
+                    
+                    
                     // Show a success message to the buyer
-                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    //alert('Transaction completed by ' + details.payer.name.given_name + '!');
                 },
 
 

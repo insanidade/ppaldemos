@@ -649,4 +649,25 @@ export async function doRef(billingAgreement) {
     console.log("MEU FRONTEND INFORMA!!!: " + body);
     return body;
 }
+//####################################################################
+//####################################################################
+//####################################################################
+export async function getECDEtails(token) {
+    const response = await fetch('/api/getECDetails?token='+token);
+    const body = await response.text();// .json();
+    if (response.status !== 200) throw Error(body.message);
 
+    console.log("MEU FRONTEND INFORMA!!!: " + body);
+    return body;
+}
+//####################################################################
+//####################################################################
+//####################################################################
+export async function doEC(token, payerid) {
+    const response = await fetch('/api/doEC?token='+token+'&payerid='+payerid);
+    const body = await response.text();// .json();
+    if (response.status !== 200) throw Error(body.message);
+
+    console.log("MEU FRONTEND INFORMA!!!: " + body);
+    return body;
+}
