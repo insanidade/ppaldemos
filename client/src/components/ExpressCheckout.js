@@ -22,7 +22,7 @@ class ExpressCheckout extends Component {
             prodBrewery: this.props.prodBrewery,
             prodPrice: this.props.prodPrice,
             uriResponseObj:{},
-            msg: 'Response Board',
+            msg: 'Response Board as set by constructor',
             token: '',
             returnUrl: 'http://localhost:3000/ec',
             errorCodeLabel: '10',
@@ -32,12 +32,11 @@ class ExpressCheckout extends Component {
         }
 
     }   
+    
 
-
-//######################################################################################################
-//######################################################################################################
-
-    handleSubmitCreate = async (data) => {
+    //######################################################################################################
+    //######################################################################################################
+    componentWillMount(data) {
         console.log('invoking create payment');
         try {
             var returnUrl = this.state.returnUrl;
@@ -45,8 +44,9 @@ class ExpressCheckout extends Component {
             var errorCodeValue = this.state.errorCodeValue;
             var amt = this.state.amt;
 
+            
             //console.log('URL QUE EU QUERO: ' + this.state.jsonResponseObj.links[1].href);
-            var ppp = await window.paypal.Buttons({
+            var ppp =  window.paypal.Buttons({
 
                 style: {
                     color: 'gold',
@@ -56,19 +56,21 @@ class ExpressCheckout extends Component {
                 },
 
                 // Set up the transaction
-                createOrder: async function (data, actions) {
-                    console.log('vai chamar setExpressCheckout');
+                createOrder: async (data, actions) => {
+                    console.log('vai chamar setECWrapper');
+                    //this.updateState("TESTE");
                     
-                    var outnvp = await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
+                    var outnvp = await this.setECWrapper(returnUrl,errorCodeLabel,errorCodeValue,amt);// await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
                     
                 
-                    console.log('CHAMOU setExpressCheckout: '+outnvp);
-                    decodeURI(outnvp);
-                    return  JSON.parse(outnvp).TOKEN;
+                    console.log('CHAMOU setECWrapper: '+outnvp);
+                    //decodeURI(outnvp);
+                    
+                    return (outnvp).TOKEN;
                 },
 
                 // Finalize the transaction
-                onApprove: async function (data, actions) {
+                onApprove: async (data, actions) => {
                     console.log('CHAMAR ONAPPROVE: '+data.orderID);
                     const ecDetails = await getECDEtails(data.orderID);
                     decodeURI(ecDetails);
@@ -77,21 +79,27 @@ class ExpressCheckout extends Component {
                     console.log('CHAMOU GET EXPRESS DETAILS PAYERID: '+payerID);
                     console.log('CHAMOU GET EXPRESS DETAILS AMT: '+amt);
 
-                    var outnvp = await doEC(data.orderID, payerID, amt);
+                    var outnvp =  await doEC(data.orderID, payerID, amt);
                     console.log('CHAMOU DoExpressCheckoutPayment : '+outnvp);
                     decodeURI(outnvp);
+
+                    this.setState({
+                        uriResponseObj:outnvp, 
+                        msg: "doEC executado. Status: "+JSON.parse(outnvp).PAYMENTINFO_0_PAYMENTSTATUS
+                    });
                     
                     console.log("STATUS DOEC: "+JSON.parse(outnvp).PAYMENTINFO_0_PAYMENTSTATUS);
-                        	 
+                     
+                    
                 
                 },
 
 
             }).render('#paypal-button-container');
 
-
-
-            this.setState({ pppRef: ppp });
+            this.setState({
+                pppRef: ppp
+            });
 
         } catch (err) {
             this.setState(
@@ -100,6 +108,29 @@ class ExpressCheckout extends Component {
                 }
             );
         }
+
+    }
+    //######################################################################################################
+    //######################################################################################################
+    setECWrapper = async (returnUrl,errorCodeLabel,errorCodeValue,amt) => {
+        console.log('VAI CHAMAR setExpressCheckout');
+        var outnvp = await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
+        console.log('CHAMOU setExpressCheckout: '+outnvp);
+        decodeURI(outnvp);
+        console.log('decodificou outnvp: '+outnvp);
+        this.setState({
+            uriResponseObj:outnvp, 
+            msg: "setEC executado. Aguardando aprovação para continuar..."
+        });
+        console.log('setou estado de uriResponseObj');
+        return JSON.parse(outnvp);
+    }
+    //######################################################################################################
+    //######################################################################################################
+
+    handleSubmitCreate = async (data) => {
+        alert('NO ACTION ATTACHED TO THIS BUTTON!');
+        
     }
 
     //######################################################################################################
@@ -112,8 +143,8 @@ class ExpressCheckout extends Component {
         try {
             var outjson = await createToken(data);
             this.setState({
-                msg: JSON.stringify(outjson),
-                jsonResponseObj: outjson,
+                msg: "Token retrieved!",//JSON.stringify(outjson),
+                uriResponseObj: outjson,
                 token: outjson.access_token
 
             });
