@@ -36,7 +36,7 @@ class ExpressCheckout extends Component {
 
     //######################################################################################################
     //######################################################################################################
-    componentWillMount(data) {
+    componentDidMount(data) {
         console.log('invoking create payment');
         try {
             var returnUrl = this.state.returnUrl;

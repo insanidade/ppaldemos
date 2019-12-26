@@ -96,18 +96,7 @@ app.get('/api/createBA', (req, res) => {
     }); */
 
     console.log('CONFIGURADO POSTDATA');
-    /* (err, res) => {
-        console.log('RES SUPERAGENT: '+res);
-        console.log('ERR SUPERAGENT: '+err);
-    }  */
-    //console.log(finalResult);
-      /* .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    
     const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
         method: "POST",
         body: postData
@@ -118,12 +107,7 @@ app.get('/api/createBA', (req, res) => {
     .then(
         textConverted => res.send(querystring.parse(textConverted))) ;
 
-    //console.log('FROM FETCH: '+ decodeURI(finalResult));
     
-    //res.send(textConverted);
-
-
-    //res.send({ express: 'Hello From Express, Otávio!' });
 });
 
 
@@ -181,27 +165,10 @@ app.get('/api/setEC', (req, res) => {
         formData: postData
     }
 
-    /* rp(options)
-    .then(function (body) {
-        console.log('SUCESSO: '+body.responseText);
-    })
-    .catch(function (err) {
-        console.log('DEU PAU: '+err);
-    }); */
+    
 
     console.log('CONFIGURADO POSTDATA');
-    /* (err, res) => {
-        console.log('RES SUPERAGENT: '+res);
-        console.log('ERR SUPERAGENT: '+err);
-    }  */
-    //console.log(finalResult);
-      /* .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    
     const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
         method: "POST",
         body: postData
@@ -212,12 +179,7 @@ app.get('/api/setEC', (req, res) => {
     .then(
         textConverted => res.send(querystring.parse(textConverted))) ;
 
-    //console.log('FROM FETCH: '+ textConverted);
     
-    //res.send(textConverted);
-
-
-    //res.send({ express: 'Hello From Express, Otávio!' });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
