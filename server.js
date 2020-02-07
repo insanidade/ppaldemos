@@ -5,6 +5,9 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const ENV_PRODUCTION = 'prod';
+const ENV_SANDBOX = 'sandbox';
+
 app.get('/api/mensagem', (req, res) => {
     console.log("SERVIDOR CHAMANDO");
 
@@ -117,16 +120,23 @@ app.get('/api/createBA', (req, res) => {
 app.get('/api/setEC', (req, res) => {
     console.log("SERVIDOR: CHAMADA REMOTA SetExpressCheckout");
 
-    console.log("SERVIDOR: LABEL =>" +req.query.errMockLabel);
-    console.log("SERVIDOR: VALUE =>" +req.query.errMockValue);
-    console.log("SERVIDOR: VALUE =>" +req.query.returnUrl);
+    console.log("SERVIDOR: ENV =>" +req.query.env);
+    console.log("SERVIDOR: MOCK LABEL =>" +req.query.errMockLabel);
+    console.log("SERVIDOR: MOCK VALUE =>" +req.query.errMockValue);
+    console.log("SERVIDOR: RETURN URL =>" +req.query.returnUrl);
+
+    var environment = req.query.env;
 
     var querystring = require('querystring');    
 
     var postData = querystring.stringify({
-        "USER": "odefranca-bus_api1.paypal.com",
+        /* "USER": "odefranca-bus_api1.paypal.com",
         "PWD": "N4YDYTL8972DZW6G",
-        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr", */
+
+        "USER": "fasilva_api1.paypal.com",
+        "PWD": "63GZ6QY8X8F45VE2",
+        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
         "METHOD": "SetExpressCheckout",
         "VERSION":"204",
         "MAXAMT": req.query.errMockValue,
@@ -151,25 +161,33 @@ app.get('/api/setEC', (req, res) => {
 
     });
 
-
+    /* USER = fasilva_api1.paypal.com
+PWD = 63GZ6QY8X8F45VE2
+SIGNATURE = An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2 */
+    
 
     console.log(postData);
+    console.log('SERVER WILL SEND REQUEST TO: '+environment);
     
-    var options = {
-        uri: 'https://api-3t.sandbox.paypal.com/nvp',
+    /* var options = {
+        uri: 'https://api-3t'+environment.toString().trim === ENV_PRODUCTION?'':'.sandbox'+'.paypal.com/nvp',
         method: 'POST',
         headers: {
             'Content-Type': 'multipart/form-data',
             'Content-Length': postData.length
         },
         formData: postData
-    }
+    } */
 
     
+
+    console.log('CONDICIONAL: '+ (environment === ENV_PRODUCTION?'PROD!':'SANDBOX'))
 
     console.log('CONFIGURADO POSTDATA');
+    var fetchUrl = 'https://api-3t'+ (environment === ENV_PRODUCTION?'':'.sandbox') +'.paypal.com/nvp';
+    console.log('REQUISICAO SERA FEITA PARA '+fetchUrl);
     
-    const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
+    const finalResult = fetch(fetchUrl, {
         method: "POST",
         body: postData
         /* headers: new Headers({

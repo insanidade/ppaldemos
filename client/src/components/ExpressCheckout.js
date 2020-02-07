@@ -9,6 +9,8 @@ import { setEC } from '../actions/postActions';
 import { getECDEtails } from '../actions/postActions';
 import { doEC } from '../actions/postActions';
 import Script from 'react-load-script';
+import { properties } from '../properties.js';
+
 //import PAYPAL from 'https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js';
 
 class ExpressCheckout extends Component {
@@ -16,8 +18,7 @@ class ExpressCheckout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //clientID: this.props.clientid || 'ASpwwK3e6Xq319fcTEY4asiXBYzRZQK3kJLVZH5mQYf_7ZJw7cKzIScarLFGWwqcObuTKKYMPw6RLADw',
-            //secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j',
+            environment: properties.env,            
             prodName: this.props.prodName,
             prodBrewery: this.props.prodBrewery,
             prodPrice: this.props.prodPrice,
@@ -33,23 +34,34 @@ class ExpressCheckout extends Component {
 
     }   
     
+    //######################################################################################################
+    //######################################################################################################
+    componentWillMount(data){
+        console.log('COMPONENTE VAI MONTAR');
+        const API_KEY_PARAM = properties.prod_client_id;
+        const the_script = document.createElement('script');
+        the_script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=BRL';
+        document.head.append(the_script);
+    }
 
     //######################################################################################################
     //######################################################################################################
     componentDidMount(data) {
         console.log('invoking create payment');
         try {
+            var env = this.state.environment;
             var returnUrl = this.state.returnUrl;
             var errorCodeLabel = this.state.errorCodeLabel;
             var errorCodeValue = this.state.errorCodeValue;
             var amt = this.state.amt;
 
             
-            //console.log('URL QUE EU QUERO: ' + this.state.jsonResponseObj.links[1].href);
+            console.log('ENV: ' + env);
             var ppp =  window.paypal.Buttons({
-
+                locale: 'pt_BR',
+                env: 'live',
                 style: {
-                    color: 'gold',
+                    color: 'blue',
                     shape: 'pill',
                     label: 'pay',
                     height: 40
@@ -57,10 +69,10 @@ class ExpressCheckout extends Component {
 
                 // Set up the transaction
                 createOrder: async (data, actions) => {
-                    console.log('vai chamar setECWrapper');
+                    console.log('vai chamar setECWrapper. env é: '+env);
                     //this.updateState("TESTE");
                     
-                    var outnvp = await this.setECWrapper(returnUrl,errorCodeLabel,errorCodeValue,amt);// await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
+                    var outnvp = await this.setECWrapper(env, returnUrl,errorCodeLabel,errorCodeValue,amt);// await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
                     
                 
                     console.log('CHAMOU setECWrapper: '+outnvp);
@@ -112,9 +124,9 @@ class ExpressCheckout extends Component {
     }
     //######################################################################################################
     //######################################################################################################
-    setECWrapper = async (returnUrl,errorCodeLabel,errorCodeValue,amt) => {
+    setECWrapper = async (env,returnUrl,errorCodeLabel,errorCodeValue,amt) => {
         console.log('VAI CHAMAR setExpressCheckout');
-        var outnvp = await setEC(returnUrl,errorCodeLabel,errorCodeValue,amt);
+        var outnvp = await setEC(env, returnUrl,errorCodeLabel,errorCodeValue,amt);
         console.log('CHAMOU setExpressCheckout: '+outnvp);
         decodeURI(outnvp);
         console.log('decodificou outnvp: '+outnvp);
