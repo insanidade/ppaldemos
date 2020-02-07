@@ -1,0 +1,6 @@
+#general
+REACT_APP_HEADER=Integrações PayPal
+
+#prod REST data
+REACT_APP_PP_CLIENT_ID=
+

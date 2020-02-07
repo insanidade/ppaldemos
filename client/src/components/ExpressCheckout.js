@@ -10,6 +10,7 @@ import { getECDEtails } from '../actions/postActions';
 import { doEC } from '../actions/postActions';
 import Script from 'react-load-script';
 import { properties } from '../properties.js';
+import dotenv from 'dotenv'
 
 //import PAYPAL from 'https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js';
 
@@ -31,23 +32,37 @@ class ExpressCheckout extends Component {
             amt:'30.00',
             response:''
         }
+        
 
     }   
     
     //######################################################################################################
     //######################################################################################################
-    /* componentWillMount(data){
+    componentWillMount(data){
+
         console.log('COMPONENTE VAI MONTAR');
-        const API_KEY_PARAM = properties.prod_client_id;
+
+        /* dotenv.config();
+        console.log(process.env.REACT_APP_PP_CLIENT_ID);
+
+        
+        //const API_KEY_PARAM = properties.prod_client_id;
         const the_script = document.createElement('script');
         the_script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=BRL';
-        document.head.append(the_script);
-    } */
+        document.head.append(the_script); */
+
+        /* const the_script = document.createElement('script');
+        the_script.src = 'https://www.paypal.com/sdk/js?client-id=' +process.env.REACT_APP_PP_CLIENT_ID+ '&currency=BRL';
+        document.head.append(the_script) */
+    }
 
     //######################################################################################################
     //######################################################################################################
     componentDidMount(data) {
         console.log('invoking create payment');
+
+        
+
         try {
             var env = this.state.environment;
             var returnUrl = this.state.returnUrl;

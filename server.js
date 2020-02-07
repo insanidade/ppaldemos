@@ -2,6 +2,9 @@ const express = require('express');
 
 const fetch = require('node-fetch');
 
+const dotenv = require('dotenv');    
+dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -125,7 +128,8 @@ app.get('/api/setEC', (req, res) => {
     console.log("SERVIDOR: MOCK VALUE =>" +req.query.errMockValue);
     console.log("SERVIDOR: RETURN URL =>" +req.query.returnUrl);
 
-    var environment = req.query.env;
+    
+    var environment = req.query.env;    
 
     var querystring = require('querystring');    
 
@@ -134,9 +138,9 @@ app.get('/api/setEC', (req, res) => {
         "PWD": "N4YDYTL8972DZW6G",
         "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr", */
 
-        "USER": "fasilva_api1.paypal.com",
-        "PWD": "63GZ6QY8X8F45VE2",
-        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
+        "USER": environment === ENV_PRODUCTION?process.env.REACT_APP_USER:process.env.REACT_APP_SANDBOX_USER,
+        "PWD": environment === ENV_PRODUCTION? process.env.REACT_APP_PWD:process.env.REACT_APP_SANDBOX_PWD,
+        "SIGNATURE": environment === ENV_PRODUCTION?process.env.REACT_APP_SIGNATURE:process.env.REACT_APP_SANDBOX_SIGNATURE,
         "METHOD": "SetExpressCheckout",
         "VERSION":"204",
         "MAXAMT": req.query.errMockValue,
@@ -148,7 +152,7 @@ app.get('/api/setEC', (req, res) => {
         //"L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",// #The description of the billing agreement
         "cancelUrl": req.query.returnUrl, //#For use if the consumer decides not to proceed with payment
         "returnUrl": req.query.returnUrl,
-        "NOSHIPPING": '0',
+        "NOSHIPPING": '1',
         "ADDROVERRIDE": '1',
         'PAYMENTREQUEST_0_SHIPTONAME':"Para este comprador",
         'PAYMENTREQUEST_0_SHIPTOSTREET': "Rua X, numero Z",
@@ -187,6 +191,7 @@ SIGNATURE = An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2 */
     var fetchUrl = 'https://api-3t'+ (environment === ENV_PRODUCTION?'':'.sandbox') +'.paypal.com/nvp';
     console.log('REQUISICAO SERA FEITA PARA '+fetchUrl);
     
+    
     const finalResult = fetch(fetchUrl, {
         method: "POST",
         body: postData
@@ -199,8 +204,6 @@ SIGNATURE = An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2 */
 
     
 });
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
 
 //#############################################################################
 //#############################################################################
@@ -275,3 +278,5 @@ app.get('/api/doEC', (req, res) => {
         textConverted => res.send(querystring.parse(textConverted))) ;
 
 });
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
