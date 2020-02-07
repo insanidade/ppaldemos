@@ -36,13 +36,13 @@ class ExpressCheckout extends Component {
     
     //######################################################################################################
     //######################################################################################################
-    componentWillMount(data){
+    /* componentWillMount(data){
         console.log('COMPONENTE VAI MONTAR');
         const API_KEY_PARAM = properties.prod_client_id;
         const the_script = document.createElement('script');
         the_script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=BRL';
         document.head.append(the_script);
-    }
+    } */
 
     //######################################################################################################
     //######################################################################################################

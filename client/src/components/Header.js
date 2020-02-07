@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import dotenv from 'dotenv'
 
 dotenv.config();
-console.log(process.env.REACT_APP_ODEFRANCA_TEST);
+console.log(process.env.REACT_APP_PP_CLIENT_ID);
 // The Header creates links that can be used to navigate
 // between routes.
 const Header = () => (
