@@ -249,11 +249,12 @@ try {
     "payerTaxIdType": "BR_CPF",
     //"language": "en_US",
     "language": "pt_BR",
-    //"merchantInstallmentSelection":4,
-    //"merchantInstallmentSelectionOptional":false,
+    "merchantInstallmentSelection":9,
+    "merchantInstallmentSelectionOptional":false,
     "country": "BR",
     //"country": "US",
-    "rememberedCards": "customerRememberedCardHash", 
+    "rememberedCards": "customerRememberedCardHash",
+    "iframeHeight" : 400,
     onError: (err) => {
         console.log('CAPTUREI UM ERRO COM O onError: ', err);
     },

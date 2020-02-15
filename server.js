@@ -152,16 +152,16 @@ app.get('/api/setEC', (req, res) => {
         //"L_BILLINGAGREEMENTDESCRIPTION0": "Acordo",// #The description of the billing agreement
         "cancelUrl": req.query.returnUrl, //#For use if the consumer decides not to proceed with payment
         "returnUrl": req.query.returnUrl,
-        "NOSHIPPING": '1',
-        "ADDROVERRIDE": '1',
-        'PAYMENTREQUEST_0_SHIPTONAME':"Para este comprador",
-        'PAYMENTREQUEST_0_SHIPTOSTREET': "Rua X, numero Z",
-        'PAYMENTREQUEST_0_SHIPTOSTREET2': "Bairro Y, complemento W",
+        'PAYMENTREQUEST_0_SHIPTONAME':"Otávio Augusto",
+        'PAYMENTREQUEST_0_SHIPTOSTREET': "New Street X, new number Z",
+        'PAYMENTREQUEST_0_SHIPTOSTREET2': "New Y, new extra info W",
         'PAYMENTREQUEST_0_SHIPTOCITY': "Sao Paulo",
         'PAYMENTREQUEST_0_SHIPTOSTATE': "SP",
         'PAYMENTREQUEST_0_SHIPTOZIP': "01402000",
         'PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE': "BR",
-        'PAYMENTREQUEST_0_SHIPTOPHONENUM':"+551199888888"  
+        'PAYMENTREQUEST_0_SHIPTOPHONENUM':"+551133222222",        
+        "NOSHIPPING": '0',
+        //"ADDROVERRIDE": '1',
 
     });
 

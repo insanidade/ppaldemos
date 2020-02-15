@@ -32,7 +32,7 @@ class ExternalButton extends Component {
              return <Redirect push to="/sample" />;
           } */
         return (
-            <div align="center">
+            <div  align="center">
                 <button id="continueButton" onClick={this.handleClick}>
                     {this.props.buttonText}
                 </button>
