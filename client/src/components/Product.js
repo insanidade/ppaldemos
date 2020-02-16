@@ -39,7 +39,7 @@ class Product extends Component {
         return (
             <form name="checkout" className="form-horizontal" onSubmit={this.handleSubmit}>
 
-                <table border="1" bordercolor="green" align="center">
+                <table border="1" bordercolor="black" align="center">
                     <tr align='center'>
                         <p>{this.state.prodName}</p>
                     </tr>

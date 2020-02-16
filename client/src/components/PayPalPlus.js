@@ -342,7 +342,7 @@ render = () => {
             <br />
 
             <hr />
-            <table>
+            <table border="1" bordercolor="orange" align="center">
                 <tr>
                     <th>
                         <Product
