@@ -11,7 +11,8 @@ class Product extends Component {
             prodName: this.props.prodName,            
             prodImage: this.props.prodImage,
             prodPrice: this.props.prodPrice,
-            prodAmount: this.props.prodAmount
+            prodAmount: this.props.prodAmount,
+            prodId: this.props.prodId
         }
 
     }   
@@ -60,7 +61,7 @@ class Product extends Component {
 
 
                 </table>
-            <input type='submit'value='atualizar quantidade'/>
+            <input type='submit'value='Add to kart'/>
             </form>
         );
     }

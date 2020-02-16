@@ -18,12 +18,10 @@ class ResponseBoard extends Component{
         return (
             
             <div align="left">
-                
-                    <JSONPretty  json={this.props.authObj} theme={JSONPrettyMon} ></JSONPretty>
-                    {this.props.msg}
-                    <br />
-                   
-                
+                <JSONPretty json={this.props.msg} theme={JSONPrettyMon} ></JSONPretty>
+                <br />
+                <JSONPretty json={this.props.authObj} theme={JSONPrettyMon} ></JSONPretty>
+                <br />
             </div>
             
             

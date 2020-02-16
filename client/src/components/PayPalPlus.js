@@ -21,6 +21,7 @@ class PayPalPlus extends Component{
         this.state = {
             msg: 'Response Board',
             jsonResponseObj: {},
+            kart:[],//{id, name, amount}
             executeUrl: '',
             token: 'EMPTY_TOKEN',
             pppRef:{}, 
@@ -211,7 +212,7 @@ handleSubmit = async (data) => {
     try {
         var outjson = await createToken(data);
         this.setState({
-            msg: JSON.stringify(outjson),
+            msg: 'SUCCESS',
             jsonResponseObj: outjson,
             token: outjson.access_token
 
@@ -315,18 +316,47 @@ try {
 //######################################################################################################
 //######################################################################################################
 //######################################################################################################
-handleUpdateKart = async (data) => {
-    console.log('Produto: ' + data.prodName);
-    console.log('Quantidade de itens: ' + data.prodAmount);
-    /* try {
-       this.state.pppRef.doContinue()       
-    
-        
-    } catch (err) {
-        this.setState(
-            { msg: 'Request error' }
-        );
-    } */
+    handleUpdateKart = async (data) => {
+        console.log('Produto: ' + data.prodName);
+        console.log('Quantidade de itens: ' + data.prodAmount);
+        try {
+            var found = this.state.kart.findIndex(function (element) {
+                return element.id === data.prodId;
+            });
+
+            //Elemento encontrado
+            if ('-1' != found) {
+                console.log('ELEMENTO JA EXISTE: ' + JSON.stringify(found));
+                if ('0' === data.prodAmount) {
+                    this.state.kart.splice(found, 1)
+                } else {
+                    this.state.kart[found].amount = data.prodAmount
+                }
+            } else {
+                if ('0' < data.prodAmount){
+                    this.state.kart.push({
+                        "id": data.prodId,
+                        "name": data.prodName,
+                        "amount": data.prodAmount
+                    });
+                }else{
+                    alert("Use a value greater than zero")
+                }
+                
+                console.log('KART: ' + JSON.stringify(this.state.kart));
+            }          
+
+            
+
+            this.setState(
+                { msg: JSON.stringify(this.state.kart) }
+            )
+
+        } catch (err) {
+            this.setState(
+                { msg: 'Error updating kart' }
+            );
+        }
     }
 //######################################################################################################
 //######################################################################################################
@@ -346,6 +376,7 @@ render = () => {
                 <tr>
                     <th>
                         <Product
+                            prodId='1'
                             prodName='Leave the Gun! Take the Cannoli'
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image01}
@@ -361,6 +392,7 @@ render = () => {
                     </th>
                     <th>
                         <Product
+                            prodId='2'
                             prodName='Movie to be downloaded'
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image02}
