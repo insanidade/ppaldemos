@@ -8,6 +8,7 @@ import ReferenceNVP from './ReferenceNVP';
 import LinkedAccounts from './LinkedAccounts'
 import dotenv from 'dotenv'
 import { properties } from '../properties.js';
+import ExpressCheckoutCheckoutJS from './ExpressCheckoutCheckoutJS';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -34,6 +35,7 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/ec' component={ExpressCheckout}/>
+      <Route path='/eccheckoutjs' component={ExpressCheckoutCheckoutJS}/>
       <Route path='/ppp' component={PayPalPlus}/>
       <Route path='/refInst' component={ReferenceInstallments}/>
       <Route path='/refnvp' component={ReferenceNVP}/>

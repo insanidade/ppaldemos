@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import Script from 'react-load-script';
 //import PAYPAL from 'https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js';
 
-class FormCheckout extends Component {
+class formCheckoutLegacy extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            //clientID: this.props.clientid || 'ASpwwK3e6Xq319fcTEY4asiXBYzRZQK3kJLVZH5mQYf_7ZJw7cKzIScarLFGWwqcObuTKKYMPw6RLADw',
-            //secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j',
+            clientID: this.props.clientid || 'ASpwwK3e6Xq319fcTEY4asiXBYzRZQK3kJLVZH5mQYf_7ZJw7cKzIScarLFGWwqcObuTKKYMPw6RLADw',
+            secret: this.props.secret || 'EJWh8j2_IvgH-4CWwCnqrWOgvj_epwM0YCNrCRKfevUS9GIH04NEiK27H7hna3JofiRZ7hUj789aDX6j',
             prodName: this.props.prodName,
             prodBrewery: this.props.prodBrewery,
             prodImage: '../images/beer.jpeg',
@@ -32,9 +32,9 @@ class FormCheckout extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        //console.log('valor de client id: ' + this.state.clientID);
+        console.log('valor de client id: ' + this.state.clientID);
         this.props.onSubmit(this.state);
-        //console.log('valor de client id 2: ' + this.state.clientID);
+        console.log('valor de client id 2: ' + this.state.clientID);
     }
 
 
@@ -48,25 +48,20 @@ class FormCheckout extends Component {
                 <table border="5" bordercolor="red" align="center">
 
                     <tr >
-                        <th  colSpan="4">Beer shopping cart</th>
+                        <th  colSpan="3">Beer shopping cart</th>
                     </tr>
-
                     <tr>
-                        <th>Produto 1</th>
-                        <th>Produto 2</th>
-                        <th>Produto 3</th>
-                        <th>Produto 4</th>
+                        <th>Name</th>
+                        <th>Brewery</th>
+                        <th>Product Image</th>
+                        <th>Price</th>
                     </tr>
-
                     <tr>
-                        <th>
-                            {this.props.prodName}                            
-                        </th>
+                        <th>{this.props.prodName}</th>
                         <th>{this.props.prodBrewery}</th>
                         <th><img src={this.props.prodImage}  width="50" border="3" /></th>
                         <th>{this.props.prodPrice}</th>
-                        
-                        {/* <th>
+                        <th>
                             <div id="checkout">                    
                                 <div className="form-group">
                                     <div className="col-sm-2"></div>
@@ -80,18 +75,14 @@ class FormCheckout extends Component {
                                     </div>
                                 </div>
                             </div>
-                        </th> */}
-
+                        </th>
                     </tr>
-                </table>
-                
-                <hr />
-                <div id={this.props.divName}> </div>
-                <hr />
+                </table> 
             </form>
+          
         );
     }
 }
 
 
-export default FormCheckout;
+export default formCheckoutLegacy;

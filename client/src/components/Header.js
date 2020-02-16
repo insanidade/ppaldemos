@@ -9,8 +9,10 @@ const Header = () => (
   <header>
     <nav>
       <ul>
-        <li><Link to='/'>Home</Link></li>
-        <li><Link to='/ec'>Express Checkout [NVP]</Link></li>
+        <li><Link to='/'>Home</Link></li>        
+        <li><Link to='/ec'>Express Checkout [SPB] [NVP]</Link></li>
+        {/* @TODO */}
+        {/* <li><Link to='/eccheckoutjs'>Express Checkout[checkout.js] [NVP]</Link></li> */}
         <li><Link to='/ppp'>PayPal Plus</Link></li>
         <li><Link to='/refInst'>Reference with Installments</Link></li>
         <li><Link to='/refnvp'>Reference (Classic)</Link></li>

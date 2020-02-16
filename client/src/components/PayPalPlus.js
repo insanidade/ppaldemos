@@ -7,7 +7,9 @@ import Form from './form';
 import ResponseBoard from './responseBoard';
 import FormCheckout from './formCheckout';
 import ExternalButton from './externalButton';
-import theImage from '../images/beer.jpeg';
+import image01 from '../images/beer.jpeg';
+import image02 from '../images/beer_ref_inst.jpeg';
+import Product from './Product';
 
 //import scriptLoader from 'react-async-script-loader';
  
@@ -308,6 +310,24 @@ try {
     );
 }
 }
+
+//######################################################################################################
+//######################################################################################################
+//######################################################################################################
+//######################################################################################################
+handleUpdateKart = async (data) => {
+    console.log('Produto: ' + data.prodName);
+    console.log('Quantidade de itens: ' + data.prodAmount);
+    /* try {
+       this.state.pppRef.doContinue()       
+    
+        
+    } catch (err) {
+        this.setState(
+            { msg: 'Request error' }
+        );
+    } */
+    }
 //######################################################################################################
 //######################################################################################################
 
@@ -322,17 +342,41 @@ render = () => {
             <br />
 
             <hr />
-            <FormCheckout
-                prodName='Leave the Gun! Take the Cannoli'
-                prodBrewery='Mafiosa Cervejaria' 
-                prodImage={theImage} 
-                prodPrice='$20'
-                buttonText='Pague com PayPal'
-                onSubmit={this.handleSubmitCreate}
-                authObj={this.state.jsonResponseObj}
-                msg={this.state.msg}
-                divName='ppplusDiv'>
-            </FormCheckout>
+            <table>
+                <tr>
+                    <th>
+                        <Product
+                            prodName='Leave the Gun! Take the Cannoli'
+                            prodBrewery='Mafiosa Cervejaria'
+                            prodImage={image01}
+                            prodPrice='$20'
+                            buttonText='Pague com PayPal'
+                            //onSubmit={this.handleSubmitCreate}
+                            onSubmit={this.handleUpdateKart}
+                            authObj={this.state.jsonResponseObj}
+                            msg={this.state.msg}
+                            divName='ppplusDiv'>
+                        </Product>
+                    </th>
+                    <th>
+                        <Product
+                            prodName='Movie to be downloaded'
+                            prodBrewery='Mafiosa Cervejaria'
+                            prodImage={image02}
+                            prodPrice='$50'
+                            buttonText='Pague com PayPal'
+                            //onSubmit={this.handleSubmitCreate}
+                            onSubmit={this.handleUpdateKart}
+                            authObj={this.state.jsonResponseObj}
+                            msg={this.state.msg}
+                            divName='ppplusDiv'>
+                        </Product>
+                    </th>
+                </tr>
+            </table>
+
+            
+            
 
             <ExternalButton
                 buttonText='Checkout'
