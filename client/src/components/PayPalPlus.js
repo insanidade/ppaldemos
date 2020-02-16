@@ -350,6 +350,7 @@ render = () => {
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image01}
                             prodPrice='$20'
+                            prodAmount='5'
                             buttonText='Pague com PayPal'
                             //onSubmit={this.handleSubmitCreate}
                             onSubmit={this.handleUpdateKart}
@@ -364,6 +365,7 @@ render = () => {
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image02}
                             prodPrice='$50'
+                            prodAmount='2'
                             buttonText='Pague com PayPal'
                             //onSubmit={this.handleSubmitCreate}
                             onSubmit={this.handleUpdateKart}

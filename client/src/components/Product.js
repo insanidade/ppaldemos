@@ -11,7 +11,7 @@ class Product extends Component {
             prodName: this.props.prodName,            
             prodImage: this.props.prodImage,
             prodPrice: this.props.prodPrice,
-            prodAmount: this.props.amount
+            prodAmount: this.props.prodAmount
         }
 
     }   
