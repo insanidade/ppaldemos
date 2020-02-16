@@ -8,7 +8,7 @@ import ResponseBoard from './responseBoard';
 import FormCheckout from './formCheckout';
 import ExternalButton from './externalButton';
 import image01 from '../images/beer.jpeg';
-import image02 from '../images/beer_ref_inst.jpeg';
+import image02 from '../images/movie.png';
 import Product from './Product';
 
 //import scriptLoader from 'react-async-script-loader';
