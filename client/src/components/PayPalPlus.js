@@ -10,6 +10,8 @@ import ExternalButton from './externalButton';
 import image01 from '../images/beer.jpeg';
 import image02 from '../images/movie.png';
 import Product from './Product';
+import BuyerPersonalInfo from './BuyerPersonalInfo';
+import IframeArea from './IframeArea';
 
 //import scriptLoader from 'react-async-script-loader';
  
@@ -227,59 +229,64 @@ handleSubmit = async (data) => {
 //######################################################################################################
 //######################################################################################################
 
-handleSubmitCreate = async (data) => {
-console.log('invoking create payment');
-try {
-  var outjson = await createPayment(this.state.token, this.state.billingAgreementData);
-  this.setState({
-      msg: JSON.stringify(outjson),
-      jsonResponseObj: outjson,
-      executeUrl: outjson.links[2].href
-  });
-  console.log('URL QUE EU QUERO: '+this.state.jsonResponseObj.links[1].href);
-  var ppp = await window.PAYPAL.apps.PPP({
-    "approvalUrl": this.state.jsonResponseObj.links[1].href,
-    "placeholder": "ppplusDiv",
-    "mode": "sandbox",
-    "payerFirstName": "Otávio",
-    "payerLastName": "Franca",
-    "payerPhone": "+5561998459881",
-    "payerEmail":"otavio.augusto@gmail.com",
-    //"payerEmail":"werqw@gmail.com",
-    //"payerTaxId": "",
-    //"payerTaxIdType": "",
-    "payerTaxId": "03199060439",
-    "payerTaxIdType": "BR_CPF",
-    //"language": "en_US",
-    "language": "pt_BR",
-    "merchantInstallmentSelection":9,
-    "merchantInstallmentSelectionOptional":false,
-    "country": "BR",
-    //"country": "US",
-    "rememberedCards": "customerRememberedCardHash",
-    "iframeHeight" : 400,
-    onError: (err) => {
-        console.log('CAPTUREI UM ERRO COM O onError: ', err);
-    },
-    onContinue: (rememberedCardsToken, payerId, token, term) => {
-        console.log('CAPTUREI rememberedCardsToken COM O onContinue: ', rememberedCardsToken);
-        console.log('CAPTUREI payerId COM O onContinue: ', payerId);
-        console.log('CAPTUREI EC token COM O onContinue: ', token);
-        console.log('CAPTUREI term COM O onContinue: ', term);        
-       
-        this.capture(payerId);
-    }        
-    });
-    this.setState({pppRef: ppp});        
+    handleSubmitCreate = async (data) => {
+        if ((Array.isArray(this.state.kart)) && (this.state.kart.length)) {
+            console.log('invoking create payment ' + data.email);
+            try {
+                var outjson = await createPayment(this.state.token, this.state.billingAgreementData);
+                this.setState({
+                    msg: JSON.stringify(outjson),
+                    jsonResponseObj: outjson,
+                    executeUrl: outjson.links[2].href
+                });
+                console.log('URL QUE EU QUERO: ' + this.state.jsonResponseObj.links[1].href);
+                var ppp = await window.PAYPAL.apps.PPP({
+                    "approvalUrl": this.state.jsonResponseObj.links[1].href,
+                    "placeholder": "ppplusDiv",
+                    "mode": "sandbox",
+                    "payerFirstName": data.firstName,
+                    "payerLastName": data.lastName,
+                    "payerPhone": data.phoneNumber,
+                    "payerEmail": data.email,
+                    //"payerEmail":"werqw@gmail.com",
+                    //"payerTaxId": "",
+                    //"payerTaxIdType": "",
+                    "payerTaxId": data.cpf,
+                    "payerTaxIdType": data.taxIdType,
+                    //"language": "en_US",
+                    "language": data.language,
+                    //"merchantInstallmentSelection":9,
+                    //"merchantInstallmentSelectionOptional":false,
+                    "country": data.country,
+                    //"country": "US",
+                    "rememberedCards": "customerRememberedCardHash",
+                    "iframeHeight": 430,
+                    onError: (err) => {
+                        console.log('CAPTUREI UM ERRO COM O onError: ', err);
+                    },
+                    onContinue: (rememberedCardsToken, payerId, token, term) => {
+                        console.log('CAPTUREI rememberedCardsToken COM O onContinue: ', rememberedCardsToken);
+                        console.log('CAPTUREI payerId COM O onContinue: ', payerId);
+                        console.log('CAPTUREI EC token COM O onContinue: ', token);
+                        console.log('CAPTUREI term COM O onContinue: ', term);
 
-} catch (err) {
-  this.setState(
-      {
-          msg: 'Request error'
-      }
-  );
-}
-}
+                        this.capture(payerId);
+                    }
+                });
+                this.setState({ pppRef: ppp });
+
+            } catch (err) {
+                this.setState(
+                    {
+                        msg: 'Request error'
+                    }
+                );
+            }
+        }else{
+            alert('Shopping kart is empty!!')
+        }
+
+    }
 //######################################################################################################
 //######################################################################################################
 //######################################################################################################
@@ -341,15 +348,12 @@ try {
                     });
                 }else{
                     alert("Use a value greater than zero")
-                }
-                
+                }                
                 console.log('KART: ' + JSON.stringify(this.state.kart));
-            }          
-
-            
-
+            }
             this.setState(
                 { msg: JSON.stringify(this.state.kart) }
+                
             )
 
         } catch (err) {
@@ -381,13 +385,12 @@ render = () => {
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image01}
                             prodPrice='$20'
-                            prodAmount='5'
+                            prodAmount='0'
                             buttonText='Pague com PayPal'
                             //onSubmit={this.handleSubmitCreate}
                             onSubmit={this.handleUpdateKart}
                             authObj={this.state.jsonResponseObj}
-                            msg={this.state.msg}
-                            divName='ppplusDiv'>
+                            msg={this.state.msg}>
                         </Product>
                     </th>
                     <th>
@@ -397,19 +400,33 @@ render = () => {
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image02}
                             prodPrice='$50'
-                            prodAmount='2'
+                            prodAmount='0'
                             buttonText='Pague com PayPal'
                             //onSubmit={this.handleSubmitCreate}
                             onSubmit={this.handleUpdateKart}
                             authObj={this.state.jsonResponseObj}
-                            msg={this.state.msg}
-                            divName='ppplusDiv'>
+                            msg={this.state.msg}>
                         </Product>
+                    </th>
+                    <th>
+                        <BuyerPersonalInfo
+                            firstName="Otávio"
+                            lastName="Augusto"
+                            phoneNumber="+551133222222"
+                            email="otavionwt@gmail.com"
+                            country="BR"
+                            language="pt_BR"
+                            cpf="04185181060"
+                            taxIdType="BR_CPF"
+                            onSubmit={this.handleSubmitCreate}>
+                        </BuyerPersonalInfo>
                     </th>
                 </tr>
             </table>
 
-            
+            <IframeArea
+                divName="ppplusDiv"
+            ></IframeArea>
             
 
             <ExternalButton

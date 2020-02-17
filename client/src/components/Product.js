@@ -40,7 +40,7 @@ class Product extends Component {
         return (
             <form name="checkout" className="form-horizontal" onSubmit={this.handleSubmit}>
 
-                <table border="1" bordercolor="black" align="center">
+                <table border="1" align="center">
                     <tr align='center'>
                         <p>{this.state.prodName}</p>
                     </tr>
@@ -51,17 +51,22 @@ class Product extends Component {
                         <p>{this.state.prodPrice}</p>
                     </tr>
                     <tr align='center'>
+                        <label>amount:
                         <input
-                            value={this.state.prodAmount}
-                            maxLength='3'
-                            size='3'
-                            onChange={this.handleAmountChange}
-                        />
+                                value={this.state.prodAmount}
+                                maxLength='3'
+                                size='3'
+                                onChange={this.handleAmountChange}
+                            />
+                        </label>
+
+                    </tr>
+                    <tr>
+                        <input type='submit' value='Add to kart' />
                     </tr>
 
-
                 </table>
-            <input type='submit'value='Add to kart'/>
+
             </form>
         );
     }
