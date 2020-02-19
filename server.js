@@ -153,15 +153,15 @@ app.get('/api/setEC', (req, res) => {
         "cancelUrl": req.query.returnUrl, //#For use if the consumer decides not to proceed with payment
         "returnUrl": req.query.returnUrl,
         'PAYMENTREQUEST_0_SHIPTONAME':"Otávio Augusto",
-        'PAYMENTREQUEST_0_SHIPTOSTREET': "New Street X, new number Z",
-        'PAYMENTREQUEST_0_SHIPTOSTREET2': "New Y, new extra info W",
-        'PAYMENTREQUEST_0_SHIPTOCITY': "Sao Paulo",
-        'PAYMENTREQUEST_0_SHIPTOSTATE': "SP",
-        'PAYMENTREQUEST_0_SHIPTOZIP': "01402000",
+        'PAYMENTREQUEST_0_SHIPTOSTREET': "Rua Ana Firmino da Costa, 42",
+        'PAYMENTREQUEST_0_SHIPTOSTREET2': "Catolé",
+        'PAYMENTREQUEST_0_SHIPTOCITY': "Campina Grande",
+        'PAYMENTREQUEST_0_SHIPTOSTATE': "PB",
+        'PAYMENTREQUEST_0_SHIPTOZIP': "58108125",
         'PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE': "BR",
-        'PAYMENTREQUEST_0_SHIPTOPHONENUM':"+551133222222",        
-        "NOSHIPPING": '0',
-        //"ADDROVERRIDE": '1',
+        'PAYMENTREQUEST_0_SHIPTOPHONENUM':"+558333222222",        
+        "NOSHIPPING": '1',
+        "ADDROVERRIDE": '1',
 
     });
 
@@ -213,13 +213,14 @@ app.get('/api/getECDetails', (req, res) => {
     /* console.log("SERVIDOR: PARAMETROS =>" +req.query.ba);
     console.log("SERVIDOR: PARAMETROS =>" +req.hostname);
     console.log("SERVIDOR: PARAMETROS =>" +req.ip); */
+    var environment = req.query.env;
     var querystring = require('querystring');   
 
    
     var postData = querystring.stringify({
-        "USER": "odefranca-bus_api1.paypal.com",
-        "PWD": "N4YDYTL8972DZW6G",
-        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "USER": "fasilva_api1.paypal.com",
+        "PWD": "63GZ6QY8X8F45VE2",
+        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
         "METHOD": "GetExpressCheckoutDetails",
         "VERSION":"204",
         "TOKEN":req.query.token
@@ -229,8 +230,15 @@ app.get('/api/getECDetails', (req, res) => {
     
 
     console.log('CONFIGURADO POSTDATA');
+
+    console.log('CONDICIONAL: '+ (environment === ENV_PRODUCTION?'PROD!':'SANDBOX'))
+
+    console.log('CONFIGURADO POSTDATA');
+    var fetchUrl = 'https://api-3t'+ (environment === ENV_PRODUCTION?'':'.sandbox') +'.paypal.com/nvp';
+    console.log('REQUISICAO SERA FEITA PARA '+fetchUrl);
+
    
-    const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
+    const finalResult = fetch(fetchUrl, {
         method: "POST",
         body: postData
        
@@ -248,13 +256,14 @@ app.get('/api/doEC', (req, res) => {
     /* console.log("SERVIDOR: PARAMETROS =>" +req.query.ba);
     console.log("SERVIDOR: PARAMETROS =>" +req.hostname);
     console.log("SERVIDOR: PARAMETROS =>" +req.ip); */
+    var environment = req.query.env;
     var querystring = require('querystring');   
 
    
     var postData = querystring.stringify({
-        "USER": "odefranca-bus_api1.paypal.com",
-        "PWD": "N4YDYTL8972DZW6G",
-        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr",
+        "USER": "fasilva_api1.paypal.com",
+        "PWD": "63GZ6QY8X8F45VE2",
+        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
         "METHOD": "DoExpressCheckoutPayment",
         "VERSION":"204",
         "TOKEN":req.query.token, 
@@ -268,8 +277,14 @@ app.get('/api/doEC', (req, res) => {
     
 
     console.log('CONFIGURADO POSTDATA');
+
+    console.log('CONDICIONAL: '+ (environment === ENV_PRODUCTION?'PROD!':'SANDBOX'))
+
+    console.log('CONFIGURADO POSTDATA');
+    var fetchUrl = 'https://api-3t'+ (environment === ENV_PRODUCTION?'':'.sandbox') +'.paypal.com/nvp';
+    console.log('REQUISICAO SERA FEITA PARA '+fetchUrl);
    
-    const finalResult = fetch('https://api-3t.sandbox.paypal.com/nvp', {
+    const finalResult = fetch(fetchUrl, {
         method: "POST",
         body: postData
        

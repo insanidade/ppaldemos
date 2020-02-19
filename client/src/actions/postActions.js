@@ -2,6 +2,7 @@
 import fetch from 'node-fetch';
 import * as CryptoJS from 'crypto-js';
 import querystring from 'querystring';
+import { properties } from '../properties.js';
 
 const FAKE_ENDPOINT = 'https://webhook.site/a998c0f2-1a3f-4697-b7f3-2a2bd350a51b';
 const PAYPAL_SANDBOX_API = 'https://api.sandbox.paypal.com';
@@ -653,7 +654,9 @@ export async function doRef(billingAgreement) {
 //####################################################################
 //####################################################################
 export async function getECDEtails(token) {
-    const response = await fetch('/api/getECDetails?token='+token);
+    var environment = properties.env;
+    console.log('GETEC - EM POSTACTIONS, O VALOR DE ENV EH '+environment);
+    const response = await fetch('/api/getECDetails?token='+token+'&env='+environment);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 
@@ -664,7 +667,10 @@ export async function getECDEtails(token) {
 //####################################################################
 //####################################################################
 export async function doEC(token, payerid, amt) {
-    const response = await fetch('/api/doEC?token='+token+'&payerid='+payerid+'&amt='+amt);
+    var environment = properties.env;
+    console.log('DOEC - EM POSTACTIONS, O VALOR DE ENV EH '+environment);
+    console.log("AMOUNT : "+amt);
+    const response = await fetch('/api/doEC?token='+token+'&payerid='+payerid+'&amt='+amt+'&env='+environment);
     const body = await response.text();// .json();
     if (response.status !== 200) throw Error(body.message);
 

@@ -29,7 +29,7 @@ class ExpressCheckout extends Component {
             returnUrl: 'http://localhost:3000/ec',
             errorCodeLabel: '10',
             errorCodeValue:'10',
-            amt:'30.00',
+            amt:'100.00',
             response:''
         }
         

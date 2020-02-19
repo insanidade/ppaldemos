@@ -66,7 +66,7 @@ class FormCheckout extends Component {
                         <th><img src={this.props.prodImage}  width="50" border="3" /></th>
                         <th>{this.props.prodPrice}</th>
                         
-                        {/* <th>
+                        <th>
                             <div id="checkout">                    
                                 <div className="form-group">
                                     <div className="col-sm-2"></div>
@@ -80,7 +80,7 @@ class FormCheckout extends Component {
                                     </div>
                                 </div>
                             </div>
-                        </th> */}
+                        </th> 
 
                     </tr>
                 </table>
