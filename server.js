@@ -134,13 +134,13 @@ app.get('/api/setEC', (req, res) => {
     var querystring = require('querystring');    
 
     var postData = querystring.stringify({
-        /* "USER": "odefranca-bus_api1.paypal.com",
-        "PWD": "N4YDYTL8972DZW6G",
-        "SIGNATURE": "AkgQb6Ohw5xH4skCbbZZeyFBRJNDAbe641LDgzbnWkOgJr-z3qgmxiOr", */
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "6BUGSY7JZLGRBYEZ",
+        "SIGNATURE": "A8tWLDDq7EKO93Hh3ldBiAHk3LYiAPL5zuPYwYrgv.mc9mQaiTHVsZYV",
 
-        "USER": environment === ENV_PRODUCTION?process.env.REACT_APP_USER:process.env.REACT_APP_SANDBOX_USER,
+        /* "USER": environment === ENV_PRODUCTION?process.env.REACT_APP_USER:process.env.REACT_APP_SANDBOX_USER,
         "PWD": environment === ENV_PRODUCTION? process.env.REACT_APP_PWD:process.env.REACT_APP_SANDBOX_PWD,
-        "SIGNATURE": environment === ENV_PRODUCTION?process.env.REACT_APP_SIGNATURE:process.env.REACT_APP_SANDBOX_SIGNATURE,
+        "SIGNATURE": environment === ENV_PRODUCTION?process.env.REACT_APP_SIGNATURE:process.env.REACT_APP_SANDBOX_SIGNATURE, */
         "METHOD": "SetExpressCheckout",
         "VERSION":"204",
         "MAXAMT": req.query.errMockValue,
@@ -218,9 +218,14 @@ app.get('/api/getECDetails', (req, res) => {
 
    
     var postData = querystring.stringify({
-        "USER": "fasilva_api1.paypal.com",
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "6BUGSY7JZLGRBYEZ",
+        "SIGNATURE": "A8tWLDDq7EKO93Hh3ldBiAHk3LYiAPL5zuPYwYrgv.mc9mQaiTHVsZYV",
+
+
+        /* "USER": "fasilva_api1.paypal.com",
         "PWD": "63GZ6QY8X8F45VE2",
-        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
+        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2", */
         "METHOD": "GetExpressCheckoutDetails",
         "VERSION":"204",
         "TOKEN":req.query.token
@@ -261,15 +266,20 @@ app.get('/api/doEC', (req, res) => {
 
    
     var postData = querystring.stringify({
-        "USER": "fasilva_api1.paypal.com",
+        "USER": "odefranca-bus_api1.paypal.com",
+        "PWD": "6BUGSY7JZLGRBYEZ",
+        "SIGNATURE": "A8tWLDDq7EKO93Hh3ldBiAHk3LYiAPL5zuPYwYrgv.mc9mQaiTHVsZYV",
+
+        /* "USER": "fasilva_api1.paypal.com",
         "PWD": "63GZ6QY8X8F45VE2",
-        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2",
+        "SIGNATURE": "An5ns1Kso7MWUdW4ErQKJJJ4qi4-A33gNVOb3DgWNHivhhinGfeyEdM2", */
         "METHOD": "DoExpressCheckoutPayment",
         "VERSION":"204",
-        "TOKEN":req.query.token, 
+        "TOKEN":req.query.token,         
         "PAYERID":req.query.payerid,
         "PAYMENTREQUEST_0_PAYMENTACTION": "SALE",
-        "PAYMENTREQUEST_0_AMT": req.query.amt,
+        //"PAYMENTREQUEST_0_AMT": req.query.amt,        
+        "AMT": "10486",        
         "PAYMENTREQUEST_0_CURRENCYCODE": "BRL"
     });
 

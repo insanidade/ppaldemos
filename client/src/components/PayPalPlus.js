@@ -270,7 +270,7 @@ handleSubmit = async (data) => {
                         console.log('CAPTUREI EC token COM O onContinue: ', token);
                         console.log('CAPTUREI term COM O onContinue: ', term);
 
-                        this.capture(payerId);
+                        //this.capture(payerId);
                     }
                 });
                 this.setState({ pppRef: ppp });
