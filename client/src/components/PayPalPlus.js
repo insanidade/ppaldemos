@@ -381,7 +381,7 @@ render = () => {
                     <th>
                         <Product
                             prodId='1'
-                            prodName='Leave the Gun! Take the Cannoli'
+                            prodName='Leave the Gun! Take the Cannoli UPDATED'
                             prodBrewery='Mafiosa Cervejaria'
                             prodImage={image01}
                             prodPrice='$20'
