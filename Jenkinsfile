@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Wait!!!') {
             steps {
-                echo 'Waiting..'
+                echo 'Waiting...'
                 sh label: '', script: 'sleep 5'
             }
         }
