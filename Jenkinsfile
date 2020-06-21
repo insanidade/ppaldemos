@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Build docker image') {
+        stage('Build image') {
             steps {
                 echo 'Building image (in SRV) according to Dockerfile..'
                 sh label: '', script: 'docker image build -t insanidade/ppaldemosjenkins -f Dockerfile .'
