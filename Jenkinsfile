@@ -14,9 +14,22 @@ pipeline {
                 sh label: '', script: 'docker container run -d --name from_jenkins -p 8081:3000 insanidade/ppaldemosjenkins'
             }
         }
-        stage('Test') {
+        stage('Wait') {
             steps {
-                echo 'Testing..'
+                echo 'Waiting..'
+                sh label: '', script: 'sleep 5'
+            }
+        }
+        stage('Stop container') {
+            steps {
+                echo 'Stoping container....'
+                sh label: '', script: 'docker container stop from_jenkins'
+            }
+        }
+        stage('Remove image') {
+            steps {
+                echo 'Removing image....'
+                sh label: '', script: 'docker image rm insanidade/ppaldemosjenkins -f'                
             }
         }
         stage('Deploy') {
