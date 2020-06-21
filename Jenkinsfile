@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Build docker image') {
             steps {
-                echo 'Checking out code..'
-                git branch: 'dev_odefranca', credentialsId: 'git_ci_cd', url: 'https://github.com/insanidade/ppaldemos.git'
+                echo 'Building image according to Dockerfile..'
+                sh label: '', script: 'docker image build -t insanidade/ppaldemosjenkins'
             }
         }
         stage('Build') {
