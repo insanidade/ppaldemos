@@ -20,7 +20,7 @@ pipeline {
                 sh label: '', script: 'sleep 5'
             }
         }
-        stage('Stop container') {
+        stage('Stop container!!') {
             steps {
                 echo 'Stoping container....'
                 sh label: '', script: 'docker container stop from_jenkins'
