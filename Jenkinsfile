@@ -5,7 +5,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 echo 'Building image (in SRV) according to Dockerfile..'
-                sh label: '', script: 'docker image build -t insanidade/ppaldemosjenkins'
+                sh label: '', script: 'docker image build -t insanidade/ppaldemosjenkins .'
             }
         }
         stage('Build') {
