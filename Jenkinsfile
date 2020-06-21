@@ -26,6 +26,12 @@ pipeline {
                 sh label: '', script: 'docker container stop from_jenkins'
             }
         }
+        stage('Remove container') {
+            steps {
+                echo 'Removing container....'
+                sh label: '', script: 'docker container rm from_jenkins'
+            }
+        }
         stage('Remove image') {
             steps {
                 echo 'Removing image....'
