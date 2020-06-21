@@ -8,7 +8,7 @@ pipeline {
                 sh label: '', script: 'docker image build -t insanidade/ppaldemosjenkins -f Dockerfile .'
             }
         }
-        stage('Build') {
+        stage('Spinning container up') {
             steps {
                 echo 'Building by trigger AGAIN..'
             }
