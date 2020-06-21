@@ -14,7 +14,7 @@ pipeline {
                 sh label: '', script: 'docker container run -d --name from_jenkins -p 8081:3000 insanidade/ppaldemosjenkins'
             }
         }
-        stage('Wait') {
+        stage('Wait!') {
             steps {
                 echo 'Waiting..'
                 sh label: '', script: 'sleep 5'
