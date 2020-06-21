@@ -10,7 +10,8 @@ pipeline {
         }
         stage('Spinning container up') {
             steps {
-                echo 'Building by trigger AGAIN..'
+                echo 'docker container run..'
+                sh label: '', script: 'docker container run -d --name from_jenkins -p 8081:3000 insanidade/ppaldemosjenkins'
             }
         }
         stage('Test') {
