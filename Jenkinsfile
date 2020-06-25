@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Remove container') {
+            steps {
+                echo 'Removing container...'
+                sh label: '', script: 'docker container rm from_jenkins'
+            }
+        }
+        stage('Remove image') {
+            steps {
+                echo 'Removing image....'
+                sh label: '', script: 'docker image rm insanidade/ppaldemosjenkins -f'                
+            }
+        }
         stage('Build image') {
             steps {
                 echo 'Building image (in SRV) according to Dockerfile..'
