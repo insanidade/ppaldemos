@@ -261,6 +261,7 @@ handleSubmit = async (data) => {
                     //"country": "US",
                     "rememberedCards": "customerRememberedCardHash",
                     "iframeHeight": 430,
+                    "onLoad": "",
                     onError: (err) => {
                         console.log('CAPTUREI UM ERRO COM O onError: ', err);
                     },
@@ -414,10 +415,10 @@ render = () => {
                             lastName="Augusto"
                             phoneNumber="+551133222222"
                             email="otavionwt@gmail.com"
-                            country="BR"
-                            language="pt_BR"
-                            cpf="04185181060"
-                            taxIdType="BR_CPF"
+                            country="MX"
+                            language="es_MX"
+                            cpf=""
+                            taxIdType=""
                             onSubmit={this.handleSubmitCreate}>
                         </BuyerPersonalInfo>
                     </th>

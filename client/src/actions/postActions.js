@@ -252,7 +252,7 @@ export async function createPayment(token, billingAgreementData) {
                 "},"+
                 "\"transactions\":[{"+
                                 "\"amount\": {"+
-                                            "\"currency\": \"BRL\","+
+                                            "\"currency\": \"MXN\","+
                                             "\"total\": \"120.00\","+
                                             "\"details\": {"+
                                                         "\"shipping\": \"20.00\","+
@@ -267,13 +267,13 @@ export async function createPayment(token, billingAgreementData) {
                                                                 "},"+
                                             "\"item_list\": {"+
                                                             "\"shipping_address\": {"+
-                                                                                "\"recipient_name\": \"Otávio Augusto\","+
-                                                                                "\"line1\": \"Rua S\","+
+                                                                                "\"recipient_name\": \"Otávio Augusto in Mexico\","+
+                                                                                "\"line1\": \"Calle S\","+
                                                                                 "\"line2\": \"Bairo X\","+
-                                                                                "\"city\": \"São Paulo\","+
-                                                                                "\"country_code\": \"BR\","+
-                                                                                "\"postal_code\": \"01402000\","+
-                                                                                "\"state\": \"SP\","+
+                                                                                "\"city\": \"Ciudad de México\","+
+                                                                                "\"country_code\": \"MX\","+
+                                                                                "\"postal_code\": \"04100\","+
+                                                                                "\"state\": \"CDMX\","+
                                                                                 "\"phone\": \"(66)9371-5868\""+
                                                                                 "},"+
                                                             "\"items\": [{"+
@@ -282,7 +282,7 @@ export async function createPayment(token, billingAgreementData) {
                                                                         "\"quantity\": \"2\","+
                                                                         "\"price\": \"50.00\","+
                                                                         "\"sku\": \"product_id_99\","+
-                                                                        "\"currency\": \"BRL\""+
+                                                                        "\"currency\": \"MXN\""+
                                                                         "}]"+
                                                             "}"+
                                     "}],"+
