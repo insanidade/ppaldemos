@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-redux": "^6.0.6",
-    "ajv": "^6.5.3",
+    "ajv": "^6.12.3",
     "antd": "^3.8.4",
     "concurrently": "^4.0.1",
     "create-react-class": "^15.6.3",
