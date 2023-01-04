@@ -21,7 +21,7 @@
     "react-load-script": "0.0.6",
     "react-router-dom": "^4.3.1",
     "react-script-tag": "^1.1.2",
-    "react-scripts": "1.1.4",
+    "react-scripts": "5.0.1",
     "react-scroll-box": "^0.3.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
